@@ -41,22 +41,97 @@ const createProduct = async (req,res) => {
   }
 }
 
-const getProducts = async (req,res) => {
+const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true })
-      .sort({ createdAt: -1 });
+    const {
+      search,
+      category,
+      minPrice,
+      maxPrice,
+      page = 1,
+      limit = 10,
+      sort,
+    } = req.query;
+
+    const filter = { isActive: true };
+
+    // Search by product name
+    if (search) {
+      filter.name = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+    if (
+  (minPrice !== undefined && !Number.isFinite(Number(minPrice))) ||
+  (maxPrice !== undefined && !Number.isFinite(Number(maxPrice)))
+) {
+  return res.status(400).json({
+    message: "Invalid price values",
+  });
+}
+
+if (
+  minPrice !== undefined &&
+  maxPrice !== undefined &&
+  Number(minPrice) > Number(maxPrice)
+) {
+  return res.status(400).json({
+    message: "minPrice cannot be greater than maxPrice",
+  });
+}
+    // Filter by category
+    if (category) {
+      filter.category = category;
+    }
+
+    // Filter by price
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      filter.price = {};
+
+      if (minPrice !== undefined) {
+        filter.price.$gte = Number(minPrice);
+      }
+
+      if (maxPrice !== undefined) {
+        filter.price.$lte = Number(maxPrice);
+      }
+    }
+
+    // Pagination
+    const currentPage = Math.max(1, Number(page));
+    const itemsPerPage = Math.min(100, Math.max(1, Number(limit)));
+    const skip = (currentPage - 1) * itemsPerPage;
+
+    // Sorting
+    let sortOption = { createdAt: -1 };
+
+    if (sort === "price") {
+      sortOption = { price: 1 };
+    } else if (sort === "-price") {
+      sortOption = { price: -1 };
+    }
+
+    const totalProducts = await Product.countDocuments(filter);
+
+    const products = await Product.find(filter)
+      .sort(sortOption)
+      .skip(skip)
+      .limit(itemsPerPage);
 
     res.status(200).json({
-      count: products.length,
+      totalProducts,
+      currentPage,
+      totalPages: Math.ceil(totalProducts / itemsPerPage),
       products,
     });
   } catch (error) {
     res.status(500).json({
-      message: "Failed to fetch products",
+      message: "Server Error",
       error: error.message,
     });
   }
-}
+};
 
 const getProduct = async (req,res) => {
   try {
@@ -170,4 +245,10 @@ const deleteProduct = async (req,res) => {
   }
 }
 
-module.exports = { createProduct,getProducts,getProduct,updateProduct,deleteProduct };
+module.exports = {
+  createProduct,
+  getProducts,
+  getProduct,
+  updateProduct,
+  deleteProduct,
+};
