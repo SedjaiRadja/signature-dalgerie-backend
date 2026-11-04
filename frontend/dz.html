@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Signature d’Algérie</title>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="dz.css">
 </head>
 
 <body>
 
+    <!-- Topbar -->
     <div class="topbar">
         <span>🇩🇿 Livraison dans toute l’Algérie</span>
         <span>— Le patrimoine algérien, notre plus belle signature —</span>
         <span>Instagram · TikTok</span>
     </div>
 
+    <!-- Header -->
     <header>
         <div class="head">
 
             <label class="search">
                 ⌕
-                <input id="search" placeholder="Rechercher une collection...">
+                <input
+                    id="search"
+                    type="text"
+                    placeholder="Rechercher une collection..."
+                >
             </label>
 
             <a class="logo" href="#home">
@@ -34,9 +46,13 @@
             </a>
 
             <div class="icons">
-                <button id="fav">♡</button>
-                <button id="cart">♧ <sup id="count">0</sup></button>
-                <button id="menu">☰</button>
+                <button id="fav" type="button">♡</button>
+
+                <button id="cart" type="button">
+                    ♧ <sup id="count">0</sup>
+                </button>
+
+                <button id="menu" type="button">☰</button>
             </div>
 
         </div>
@@ -48,14 +64,16 @@
             <a href="#designers">Designers</a>
             <a href="#reviews">Avis clients</a>
             <a href="#contact">Contact</a>
-            
         </nav>
     </header>
 
     <main>
 
+        <!-- Hero Section -->
         <section class="hero" id="home">
+
             <div class="heroText">
+
                 <small>COLLECTION MARIÉES</small>
 
                 <h1>
@@ -72,60 +90,91 @@
                 <a class="gold" href="#collections">
                     Découvrir la collection →
                 </a>
+
             </div>
+
         </section>
 
+        <!-- Collections Section -->
         <section class="section" id="collections">
 
             <div class="heading">
+
                 <p class="orn">── ✿ ──</p>
+
                 <h2>Nos Collections</h2>
-                <small>DES PIÈCES UNIQUES, UN HÉRITAGE À PORTER</small>
+
+                <small>
+                    DES PIÈCES UNIQUES, UN HÉRITAGE À PORTER
+                </small>
+
             </div>
 
             <div class="grid" id="grid">
 
                 <article class="tile" data-name="Karakou">
-                    <img src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg" alt="Karakou">
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg"
+                        alt="Karakou"
+                    >
                     <b>Karakou</b>
                 </article>
 
                 <article class="tile" data-name="Caftan Algérien">
-                    <img src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg" alt="Caftan">
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg"
+                        alt="Caftan"
+                    >
                     <b>Caftan Algérien</b>
                 </article>
 
                 <article class="tile" data-name="Blouza Oranaise">
-                    <img src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg" alt="Blouza">
+                    <img
+                        src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg"
+                        alt="Blouza"
+                    >
                     <b>Blouza Oranaise</b>
                 </article>
 
                 <article class="tile" data-name="Qendoura Constantinoise">
-                    <img src="WhatsApp Image 2026-10-29 at 23.51.25.jpeg" alt="Qendoura">
+                    <img
+                        src="WhatsApp Image 2026-10-29 at 23.51.25.jpeg"
+                        alt="Qendoura"
+                    >
                     <b>Qendoura Constantinoise</b>
                 </article>
 
                 <article class="tile" data-name="Châdda Tlemcenienne">
-                    <img src="WhatsApp Image 2026-10-30 at 00.02.42.jpeg" alt="Châdda">
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 00.02.42.jpeg"
+                        alt="Châdda"
+                    >
                     <b>Châdda Tlemcenienne</b>
                 </article>
 
                 <article class="tile" data-name="Melhfa Chaouia">
-                    <img src="WhatsApp Image 2026-10-30 at 00.43.54.jpeg" alt="Accessoires">
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
+                        alt="Melhfa Chaouia"
+                    >
                     <b>Melhfa Chaouia</b>
                 </article>
 
             </div>
 
-            <p id="empty" hidden>Aucun résultat trouvé.</p>
+            <p id="empty" hidden>
+                Aucun résultat trouvé.
+            </p>
 
         </section>
 
+        <!-- About Section -->
         <section class="about section" id="about">
 
             <div class="aboutpic"></div>
 
             <div>
+
                 <small>NOTRE HISTOIRE</small>
 
                 <h2>
@@ -141,101 +190,152 @@
                 </p>
 
                 <a href="#contact">En savoir plus →</a>
+
             </div>
 
         </section>
 
+        <!-- Products Section -->
         <section class="section" id="products">
 
-            <div class="heading">
-                <h2>Nos pièces coup de cœur</h2>
-                <small>UNE SÉLECTION POUR VOS PLUS BEAUX MOMENTS</small>
+            <div class="section-heading">
+
+                <span class="section-eyebrow">
+                    SÉLECTION EXCLUSIVE
+                </span>
+
+                <h2>
+                    Nos pièces
+                    <span>intemporelles.</span>
+                </h2>
+
+                <p>
+                    L’élégance de l’artisanat algérien,
+                    dans chaque détail.
+                </p>
+
+                <div class="heading-line"></div>
+
             </div>
 
-            <div class="products">
+            <!-- Products loaded from Backend -->
+            <div class="products" id="products-list">
 
-                <div>
-                    <img src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg" alt="Karakou brodé">
-                    <h3>Karakou brodé</h3>
-                    <p>3500000Da</p>
-                    <button class="add">Ajouter au panier</button>
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-line title-line"></div>
+                    <div class="skeleton-line price-line"></div>
+                    <div class="skeleton-button"></div>
                 </div>
 
-                <div>
-                    <img src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg" alt="Caftan">
-                    <h3>Caftan élégant</h3>
-                    <p>500000DA</p>
-                    <button class="add">Ajouter au panier</button>
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-line title-line"></div>
+                    <div class="skeleton-line price-line"></div>
+                    <div class="skeleton-button"></div>
                 </div>
 
-                <div>
-                    <img src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg" alt="Blouza">
-                    <h3>Blouza Oranaise</h3>
-                    <p>650000DA</p>
-                    <button class="add">Ajouter au panier</button>
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-line title-line"></div>
+                    <div class="skeleton-line price-line"></div>
+                    <div class="skeleton-button"></div>
                 </div>
 
             </div>
 
         </section>
-            </section><!-- Designers Section -->
-<section class="designers" id="designers">
 
-    <div class="section-title">
-        <span>OUR TALENTS</span>
-        <h2>Nos Créateurs</h2>
-        <p>
-            Découvrez les créateurs qui préservent
-            et réinventent la beauté de la mode algérienne.
-        </p>
-    </div>
+        <!-- Designers Section -->
+        <section class="designers" id="designers">
 
-    <div class="designers-container">
+            <div class="section-title">
 
-        <div class="designer-card">
-            <img src="WhatsApp Image 2026-10-30 at 01.21.56.jpeg" alt="Designer">
-            <div class="designer-info">
-                <h3>Créatrice de Karakou</h3>
-                <p>Oran, Algérie</p>
-                <span>Spécialité : Karakou traditionnel</span>
+                <span>OUR TALENTS</span>
+
+                <h2>Nos Créateurs</h2>
+
+                <p>
+                    Découvrez les créateurs qui préservent
+                    et réinventent la beauté de la mode algérienne.
+                </p>
+
             </div>
-        </div>
 
-        <div class="designer-card">
-            <img src="WhatsApp Image 2026-10-30 at 01.20.21.jpeg" alt="Designer">
-            <div class="designer-info">
-                <h3>Créatrice de Caftan</h3>
-                <p>Tlemcen, Algérie</p>
-                <span>Spécialité : Caftan algérien</span>
+            <div class="designers-container">
+
+                <div class="designer-card">
+
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 01.21.56.jpeg"
+                        alt="Créatrice de Karakou"
+                    >
+
+                    <div class="designer-info">
+                        <h3>Créatrice de Karakou</h3>
+                        <p>Oran, Algérie</p>
+                        <span>Spécialité : Karakou traditionnel</span>
+                    </div>
+
+                </div>
+
+                <div class="designer-card">
+
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 01.20.21.jpeg"
+                        alt="Créatrice de Caftan"
+                    >
+
+                    <div class="designer-info">
+                        <h3>Créatrice de Caftan</h3>
+                        <p>Tlemcen, Algérie</p>
+                        <span>Spécialité : Caftan algérien</span>
+                    </div>
+
+                </div>
+
+                <div class="designer-card">
+
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 01.16.56.jpeg"
+                        alt="Créatrice de Blouza"
+                    >
+
+                    <div class="designer-info">
+                        <h3>Créatrice de Blouza</h3>
+                        <p>Oran, Algérie</p>
+                        <span>Spécialité : Blouza oranaise</span>
+                    </div>
+
+                </div>
+
             </div>
-        </div>
 
-        <div class="designer-card">
-            <img src="WhatsApp Image 2026-10-30 at 01.16.56.jpeg" alt="Designer">
-            <div class="designer-info">
-                <h3>Créatrice de Blouza</h3>
-                <p>Oran, Algérie</p>
-                <span>Spécialité : Blouza oranaise</span>
+            <div class="join-designers">
+
+                <h2>Vous êtes créateur ?</h2>
+
+                <p>
+                    Rejoignez Signature d’Algérie et partagez
+                    votre talent avec le monde.
+                </p>
+
+                <a
+                    href="mailto:contact@signature-algerie.com"
+                    class="designer-btn"
+                >
+                    Devenir partenaire
+                </a>
+
             </div>
-        </div>
 
-    </div>
+        </section>
 
-    <div class="join-designers">
-        <h2>Vous êtes créateur ?</h2>
-        <p>
-            Rejoignez Signature d’Algérie et partagez
-            votre talent avec le monde.
-        </p>
-        <a href="mailto:contact@signature-algerie.com"
-           class="designer-btn">
-            Devenir partenaire
-        </a>
-    </div>
-
-</section>
+        <!-- Reviews Section -->
         <section class="review section" id="reviews">
+
             <p class="orn">── ✿ ──</p>
+
             <h2>Une signature qui vous ressemble</h2>
 
             <p>
@@ -243,11 +343,17 @@
                 qui met à l’honneur nos traditions. »
             </p>
 
-            <small>Exemple d’avis — à remplacer par un témoignage réel</small>
+            <small>
+                Exemple d’avis — à remplacer par un témoignage réel
+            </small>
+
         </section>
 
+        <!-- Contact Section -->
         <section class="contact section" id="contact">
+
             <small>RESTONS EN CONTACT</small>
+
             <h2>Votre tenue, votre histoire.</h2>
 
             <p>
@@ -255,21 +361,38 @@
                 contactez-nous.
             </p>
 
-            <a class="gold" href="https://wa.me/213000000000" target="_blank">
+            <a
+                class="gold"
+                href="https://wa.me/213000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
                 Nous contacter sur WhatsApp →
             </a>
+
         </section>
 
     </main>
 
+    <!-- Footer -->
     <footer>
+
         <strong>Signature d’Algérie</strong>
-        <p>Le patrimoine algérien, notre plus belle signature.</p>
-        <small>© 2026 Signature d’Algérie — Tous droits réservés</small>
+
+        <p>
+            Le patrimoine algérien, notre plus belle signature.
+        </p>
+
+        <small>
+            © 2026 Signature d’Algérie — Tous droits réservés
+        </small>
+
     </footer>
 
+    <!-- Toast Notification -->
     <div id="toast"></div>
 
+    <!-- JavaScript -->
     <script src="dz.js"></script>
 
 </body>

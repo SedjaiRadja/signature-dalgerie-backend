@@ -1,100 +1,172 @@
+const API_URL = "http://localhost:5000/api";
+
 let cart = 0;
 
-const count = document.getElementById('count');
-const toast = document.getElementById('toast');
+const count = document.getElementById("count");
+const toast = document.getElementById("toast");
+const productsList = document.getElementById("products-list");
 
 let timer;
 
 function notify(message) {
     toast.textContent = message;
-
-    toast.classList.add('show');
+    toast.classList.add("show");
 
     clearTimeout(timer);
 
     timer = setTimeout(() => {
-        toast.classList.remove('show');
+        toast.classList.remove("show");
     }, 2200);
 }
 
 
-// إضافة المنتجات إلى السلة
-
-document.querySelectorAll('.add').forEach(button => {
-
-    button.addEventListener('click', () => {
-
-        cart++;
-
-        count.textContent = cart;
-
-        notify('تمت إضافة القطعة إلى السلة');
-
-    });
-
-});
+// Images locales utilisées comme fallback
+const localImages = {
+    Karakou: "images/WhatsApp Image 2026-10-30 at 00.10.28.jpeg",
+    Caftan: "images/WhatsApp Image 2026-10-30 at 00.04.32.jpeg",
+    Qendoura: "images/WhatsApp Image 2026-10-29 at 23.51.25.jpeg",
+    Blouza: "images/WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg",
+    Chadda: "images/WhatsApp Image 2026-10-30 at 00.02.42.jpeg",
+    Melhfa: "images/WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
+};
 
 
-// عرض عدد المنتجات في السلة
+// Récupérer les produits depuis le Backend
+async function loadProducts() {
+    try {
+        const response = await fetch(`${API_URL}/products`);
 
-document.getElementById('cart').addEventListener('click', () => {
-
-    notify('عدد القطع في السلة: ' + cart);
-
-});
-
-
-// زر المفضلة
-
-document.getElementById('fav').addEventListener('click', () => {
-
-    notify('قائمة المفضلة');
-
-});
-
-
-// فتح القائمة
-
-document.getElementById('menu').addEventListener('click', () => {
-
-    document.getElementById('nav').classList.toggle('open');
-
-});
-
-
-// إغلاق القائمة بعد اختيار صفحة
-
-document.querySelectorAll('nav a').forEach(link => {
-
-    link.addEventListener('click', () => {
-
-        document.getElementById('nav').classList.remove('open');
-
-    });
-
-});
-
-
-// البحث عن الملابس
-
-document.getElementById('search').addEventListener('input', event => {
-
-    let q = event.target.value.toLowerCase().trim();
-
-    let n = 0;
-
-    document.querySelectorAll('.tile').forEach(tile => {
-
-        let ok = tile.dataset.name.toLowerCase().includes(q);
-
-        tile.style.display = ok ? '' : 'none';
-
-        if (ok) {
-            n++;
+        if (!response.ok) {
+            throw new Error("Impossible de récupérer les produits");
         }
 
+        const data = await response.json();
+
+        displayProducts(data.products);
+
+    } catch (error) {
+        console.error("Products error:", error);
+
+        productsList.textContent =
+            "Impossible de charger les produits. Vérifiez la connexion au serveur.";
+    }
+}
+
+
+// Afficher les produits
+function displayProducts(products) {
+    productsList.innerHTML = "";
+
+    if (!products || products.length === 0) {
+        productsList.textContent = "Aucun produit disponible.";
+        return;
+    }
+
+    products.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    const image = document.createElement("img");
+    image.className = "product-image";
+
+    const info = document.createElement("div");
+    info.className = "product-info";
+
+    const category = document.createElement("p");
+    category.className = "product-category";
+    category.textContent = product.category;
+
+    const title = document.createElement("h3");
+    title.className = "product-title";
+    title.textContent = product.name;
+
+    const price = document.createElement("p");
+    price.className = "product-price";
+    price.textContent =
+        `${Number(product.price).toLocaleString("fr-FR")} DA`;
+
+    const button = document.createElement("button");
+    button.textContent = "Ajouter au panier";
+    button.className = "add";
+    button.dataset.productId = product._id;
+
+    const apiImage = product.images?.[0];
+
+    image.src =
+        apiImage && !apiImage.includes("example.com")
+            ? apiImage
+            : localImages[product.category] || "";
+
+    image.alt = product.name;
+
+    image.onerror = () => {
+        image.onerror = null;
+        image.src = localImages[product.category] || "";
+    };
+
+    info.append(category, title, price, button);
+    card.append(image, info);
+    productsList.appendChild(card);
+});
+}
+
+
+// Ajouter un produit au panier (compteur temporaire)
+productsList.addEventListener("click", event => {
+    const button = event.target.closest(".add");
+
+    if (!button) return;
+
+    cart++;
+    count.textContent = cart;
+
+    notify("تمت إضافة القطعة إلى السلة");
+});
+
+
+// Afficher le nombre de produits dans le panier
+document.getElementById("cart").addEventListener("click", () => {
+    notify("عدد القطع في السلة: " + cart);
+});
+
+
+// Bouton favoris
+document.getElementById("fav").addEventListener("click", () => {
+    notify("قائمة المفضلة");
+});
+
+
+// Ouvrir le menu
+document.getElementById("menu").addEventListener("click", () => {
+    document.getElementById("nav").classList.toggle("open");
+});
+
+
+// Fermer le menu après sélection
+document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", () => {
+        document.getElementById("nav").classList.remove("open");
+    });
+});
+
+
+// Recherche dans les collections
+document.getElementById("search").addEventListener("input", event => {
+    const query = event.target.value.toLowerCase().trim();
+
+    let visibleCount = 0;
+
+    document.querySelectorAll(".tile").forEach(tile => {
+        const match = tile.dataset.name.toLowerCase().includes(query);
+
+        tile.style.display = match ? "" : "none";
+
+        if (match) visibleCount++;
     });
 
-    document.getElementById('empty').hidden = n !== 0;
-
+    document.getElementById("empty").hidden = visibleCount !== 0;
 });
+
+
+// Charger les produits au démarrage
+loadProducts();
