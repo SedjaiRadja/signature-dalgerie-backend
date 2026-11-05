@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,7 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Signature d’Algérie</title>
+    <meta name="description" content="Découvrez Signature d’Algérie, une sélection de tenues traditionnelles algériennes : Karakou, Caftan, Blouza et bien plus.">
+
+    <title>Signature d’Algérie | Mode Traditionnelle</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,35 +31,47 @@
 
     <!-- Header -->
     <header>
+
         <div class="head">
 
+            <!-- Search -->
             <label class="search">
                 ⌕
                 <input
                     id="search"
                     type="text"
                     placeholder="Rechercher une collection..."
+                    aria-label="Rechercher une collection"
                 >
             </label>
 
-            <a class="logo" href="#home">
+            <!-- Logo -->
+            <a class="logo" href="#home" aria-label="Signature d'Algérie - Accueil">
                 <span>✿</span>
                 <strong>Signature d’Algérie</strong>
                 <small>MODE TRADITIONNELLE POUR MARIÉES</small>
             </a>
 
+            <!-- Header Actions -->
             <div class="icons">
-                <button id="fav" type="button">♡</button>
 
-                <button id="cart" type="button">
+                <button id="fav" type="button" aria-label="Favoris">
+                    ♡
+                </button>
+
+                <button id="cart" type="button" aria-label="Panier">
                     ♧ <sup id="count">0</sup>
                 </button>
 
-                <button id="menu" type="button">☰</button>
+                <button id="menu" type="button" aria-label="Ouvrir le menu">
+                    ☰
+                </button>
+
             </div>
 
         </div>
 
+        <!-- Navigation -->
         <nav id="nav">
             <a href="#home">Accueil</a>
             <a href="#collections">Collections</a>
@@ -65,6 +80,7 @@
             <a href="#reviews">Avis clients</a>
             <a href="#contact">Contact</a>
         </nav>
+
     </header>
 
     <main>
@@ -87,7 +103,7 @@
 
                 <p class="orn">── ✿ ──</p>
 
-                <a class="gold" href="#collections">
+                <a class="gold" href="#products">
                     Découvrir la collection →
                 </a>
 
@@ -115,7 +131,7 @@
                 <article class="tile" data-name="Karakou">
                     <img
                         src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg"
-                        alt="Karakou"
+                        alt="Karakou traditionnel algérien"
                     >
                     <b>Karakou</b>
                 </article>
@@ -123,7 +139,7 @@
                 <article class="tile" data-name="Caftan Algérien">
                     <img
                         src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg"
-                        alt="Caftan"
+                        alt="Caftan algérien"
                     >
                     <b>Caftan Algérien</b>
                 </article>
@@ -131,7 +147,7 @@
                 <article class="tile" data-name="Blouza Oranaise">
                     <img
                         src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg"
-                        alt="Blouza"
+                        alt="Blouza oranaise"
                     >
                     <b>Blouza Oranaise</b>
                 </article>
@@ -139,7 +155,7 @@
                 <article class="tile" data-name="Qendoura Constantinoise">
                     <img
                         src="WhatsApp Image 2026-10-29 at 23.51.25.jpeg"
-                        alt="Qendoura"
+                        alt="Qendoura constantinoise"
                     >
                     <b>Qendoura Constantinoise</b>
                 </article>
@@ -147,7 +163,7 @@
                 <article class="tile" data-name="Châdda Tlemcenienne">
                     <img
                         src="WhatsApp Image 2026-10-30 at 00.02.42.jpeg"
-                        alt="Châdda"
+                        alt="Châdda tlemcenienne"
                     >
                     <b>Châdda Tlemcenienne</b>
                 </article>
@@ -155,7 +171,7 @@
                 <article class="tile" data-name="Melhfa Chaouia">
                     <img
                         src="WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
-                        alt="Melhfa Chaouia"
+                        alt="Melhfa chaouia"
                     >
                     <b>Melhfa Chaouia</b>
                 </article>
@@ -218,7 +234,7 @@
 
             </div>
 
-            <!-- Products loaded from Backend -->
+            <!-- Products loaded dynamically from Backend -->
             <div class="products" id="products-list">
 
                 <div class="product-skeleton">
@@ -390,10 +406,10 @@
     </footer>
 
     <!-- Toast Notification -->
-    <div id="toast"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
 
     <!-- JavaScript -->
-    <script src="dz.js"></script>
+    <script src="dz.js" defer></script>
 
 </body>
 </html>

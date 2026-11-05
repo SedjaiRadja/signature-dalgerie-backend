@@ -790,3 +790,18 @@ footer small {
         font-size: 30px;
     }
 }
+.product-card {
+    cursor: pointer;
+}
+
+.product-card .product-image,
+.product-card .product-info,
+.product-card .product-title {
+    cursor: pointer;
+}
+
+.product-card .add {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}

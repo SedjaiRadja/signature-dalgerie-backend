@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Détails du produit | Signature d'Algérie</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="product-details.css">
+    <script src="product-details.js" defer></script>
+</head>
+
+<body>
+
+    <header class="details-header">
+        <a href="dz.html" class="brand">SIGNATURE <span>D'ALGÉRIE</span></a>
+
+        <a href="dz.html#products" class="back-link">
+            ← Retour à la collection
+        </a>
+
+        <div class="cart-info">
+            Panier <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main class="details-container">
+
+        <div id="loading" class="loading">
+            Chargement du produit...
+        </div>
+
+        <div id="error" class="error" hidden>
+            Impossible de trouver ce produit.
+            <a href="dz.html">Retour à la collection</a>
+        </div>
+
+        <section id="product-details" class="product-details" hidden>
+
+            <div class="gallery">
+
+                <div id="thumbnails" class="thumbnails"></div>
+
+                <div class="main-image-container">
+                    <img id="main-image" src="" alt="">
+                    <span id="image-category" class="image-category"></span>
+                </div>
+
+            </div>
+
+            <div class="product-info">
+
+                <p id="product-category" class="category"></p>
+
+                <h1 id="product-name"></h1>
+
+                <p id="product-price" class="price"></p>
+
+                <div class="divider"></div>
+
+                <div class="description">
+                    <span class="label">DESCRIPTION</span>
+                    <p id="product-description"></p>
+                </div>
+                <div class="product-options">
+
+    <div class="option-group">
+        <span class="label">TAILLES DISPONIBLES</span>
+        <div id="product-sizes" class="option-values">
+            <!-- Rempli par JavaScript -->
+        </div>
+    </div>
+
+    <div class="option-group">
+        <span class="label">COULEURS DISPONIBLES</span>
+        <div id="product-colors" class="option-values">
+            <!-- Rempli par JavaScript -->
+        </div>
+    </div>
+
+</div>
+
+<div class="availability">
+    <span class="label">DISPONIBILITÉ</span>
+    <p id="product-status"></p>
+</div>
+                <div class="stock">
+                    <span id="stock-dot"></span>
+                    <p id="product-stock"></p>
+                </div>
+
+                <div id="quantity-section" class="quantity-section">
+                    <label>QUANTITÉ</label>
+
+                    <div class="quantity-control">
+                        <button id="decrease" type="button">−</button>
+                        <span id="quantity">1</span>
+                        <button id="increase" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="add-to-cart" class="add-to-cart">
+                        Ajouter au panier
+                    </button>
+
+                    <button id="favorite" class="favorite" aria-label="Ajouter aux favoris">
+                        ♡
+                    </button>
+                </div>
+
+                <p id="cart-message" class="cart-message" aria-live="polite"></p>
+
+                <div class="additional-info">
+
+                    <div>
+                        <span>Livraison</span>
+                        <span>Livraison disponible</span>
+                    </div>
+
+                    <div>
+                        <span>Retours</span>
+                        <a href="dz.html#contact">En savoir plus ↗</a>
+                    </div>
+
+                    <div>
+                        <span>Catégorie</span>
+                        <span id="info-category"></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

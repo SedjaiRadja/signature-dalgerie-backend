@@ -52,7 +52,6 @@ async function loadProducts() {
     }
 }
 
-
 // Afficher les produits
 function displayProducts(products) {
     productsList.innerHTML = "";
@@ -63,65 +62,103 @@ function displayProducts(products) {
     }
 
     products.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product-card";
 
-    const image = document.createElement("img");
-    image.className = "product-image";
+        // Product Card
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.dataset.productId = product._id;
+        card.style.cursor = "pointer";
+        card.tabIndex = 0;
+        card.setAttribute("role", "link");
+        card.setAttribute("aria-label", `Voir les détails de ${product.name}`);
 
-    const info = document.createElement("div");
-    info.className = "product-info";
+        // Product Image
+        const image = document.createElement("img");
+        image.className = "product-image";
 
-    const category = document.createElement("p");
-    category.className = "product-category";
-    category.textContent = product.category;
+        const apiImage = product.images?.[0];
 
-    const title = document.createElement("h3");
-    title.className = "product-title";
-    title.textContent = product.name;
+        image.src =
+            apiImage && !apiImage.includes("example.com")
+                ? apiImage
+                : localImages[product.category] || "";
 
-    const price = document.createElement("p");
-    price.className = "product-price";
-    price.textContent =
-        `${Number(product.price).toLocaleString("fr-FR")} DA`;
+        image.alt = product.name;
 
-    const button = document.createElement("button");
-    button.textContent = "Ajouter au panier";
-    button.className = "add";
-    button.dataset.productId = product._id;
+        image.onerror = () => {
+            image.onerror = null;
+            image.src = localImages[product.category] || "";
+        };
 
-    const apiImage = product.images?.[0];
+        // Product Info
+        const info = document.createElement("div");
+        info.className = "product-info";
 
-    image.src =
-        apiImage && !apiImage.includes("example.com")
-            ? apiImage
-            : localImages[product.category] || "";
+        // Category
+        const category = document.createElement("p");
+        category.className = "product-category";
+        category.textContent = product.category;
 
-    image.alt = product.name;
+        // Name
+        const title = document.createElement("h3");
+        title.className = "product-title";
+        title.textContent = product.name;
 
-    image.onerror = () => {
-        image.onerror = null;
-        image.src = localImages[product.category] || "";
-    };
+        // Price
+        const price = document.createElement("p");
+        price.className = "product-price";
+        price.textContent =
+            `${Number(product.price).toLocaleString("fr-FR")} DA`;
 
-    info.append(category, title, price, button);
-    card.append(image, info);
-    productsList.appendChild(card);
-});
+        // Add to Cart Button
+        const button = document.createElement("button");
+        button.textContent = "Ajouter au panier";
+        button.className = "add";
+        button.dataset.productId = product._id;
+        button.type = "button";
+
+        // Build Card
+        info.append(category, title, price, button);
+        card.append(image, info);
+
+        productsList.appendChild(card);
+    });
 }
 
-
 // Ajouter un produit au panier (compteur temporaire)
+
 productsList.addEventListener("click", event => {
     const button = event.target.closest(".add");
 
-    if (!button) return;
+    if (button) {
+        cart++;
+        count.textContent = cart;
+        notify("تمت إضافة القطعة إلى السلة");
+        return;
+    }
 
-    cart++;
-    count.textContent = cart;
+    const card = event.target.closest(".product-card");
 
-    notify("تمت إضافة القطعة إلى السلة");
+    if (card?.dataset.productId) {
+        window.location.href =
+            `product-details.html?id=${encodeURIComponent(card.dataset.productId)}`;
+    }
 });
+
+// Navigation au clavier
+productsList.addEventListener("keydown", event => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    const card = event.target.closest(".product-card");
+
+    if (!card || event.target.closest("button")) return;
+
+    event.preventDefault();
+
+    window.location.href =
+        `product-details.html?id=${encodeURIComponent(card.dataset.productId)}`;
+});
+
 
 
 // Afficher le nombre de produits dans le panier
