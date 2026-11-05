@@ -560,3 +560,20 @@
 [hidden] {
     display: none !important;
 }
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    margin-right: auto;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+}

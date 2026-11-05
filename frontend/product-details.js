@@ -115,13 +115,28 @@ if (searchInput) {
 // CART COUNTER
 // ==============================
 
+
 function updateCartCount() {
 
-    cart = Number(localStorage.getItem("cartCount") || 0);
+    let cartItems = [];
+
+    try {
+        cartItems = JSON.parse(
+            localStorage.getItem("cartItems") || "[]"
+        );
+    } catch (error) {
+        cartItems = [];
+    }
+
+    cart = cartItems.reduce((total, item) => {
+        return total + Number(item.quantity || 0);
+    }, 0);
 
     if (cartCount) {
         cartCount.textContent = cart;
     }
+
+    localStorage.setItem("cartCount", cart);
 }
 
 updateCartCount();
@@ -131,20 +146,7 @@ updateCartCount();
 if (cartButton) {
 
     cartButton.addEventListener("click", () => {
-
-        const message = document.getElementById("cart-message");
-
-        if (message) {
-
-            message.textContent =
-                `Votre panier contient ${cart} article(s).`;
-
-            clearTimeout(messageTimer);
-
-            messageTimer = setTimeout(() => {
-                message.textContent = "";
-            }, 2500);
-        }
+        window.location.href = "cart.html";
     });
 }
 
@@ -695,11 +697,7 @@ if (addToCartButton) {
 
 
         // Update counter
-        cart += quantity;
-
-        localStorage.setItem("cartCount", cart);
-
-        updateCartCount();
+updateCartCount();
 
 
         // Confirmation message
