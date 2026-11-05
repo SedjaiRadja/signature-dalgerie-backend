@@ -21,67 +21,107 @@
 </head>
 
 <body>
+<!-- Topbar -->
+<div class="topbar">
+    <span>🇩🇿 Livraison dans toute l’Algérie</span>
+    <span>— Le patrimoine algérien, notre plus belle signature —</span>
+    <span>Instagram · TikTok</span>
+</div>
 
-    <!-- Topbar -->
-    <div class="topbar">
-        <span>🇩🇿 Livraison dans toute l’Algérie</span>
-        <span>— Le patrimoine algérien, notre plus belle signature —</span>
-        <span>Instagram · TikTok</span>
-    </div>
+<!-- Header -->
+<header class="site-header">
 
-    <!-- Header -->
-    <header>
+    <div class="head">
 
-        <div class="head">
+        <!-- Search -->
+        <label class="search">
+            <svg
+                class="search-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                aria-hidden="true"
+            >
+                <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                <path d="m16 16 4.2 4.2"></path>
+            </svg>
 
-            <!-- Search -->
-            <label class="search">
-                ⌕
-                <input
-                    id="search"
-                    type="text"
-                    placeholder="Rechercher une collection..."
-                    aria-label="Rechercher une collection"
+            <input
+                id="search"
+                type="search"
+                placeholder="Rechercher une collection..."
+                aria-label="Rechercher un produit"
+                autocomplete="off"
+            >
+        </label>
+
+        <!-- Logo -->
+        <a class="logo" href="#home" aria-label="Signature d’Algérie - Accueil">
+            <span class="logo-symbol">✿</span>
+            <strong>Signature d’Algérie</strong>
+            <small>L’ÉLÉGANCE DU PATRIMOINE ALGÉRIEN</small>
+        </a>
+
+        <!-- Header Actions -->
+        <div class="icons">
+
+            <!-- Cart -->
+            <button
+                id="cart"
+                type="button"
+                aria-label="Panier"
+                class="cart-button"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
                 >
-            </label>
+                    <path d="M3 3h2l2.4 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"/>
+                    <circle cx="10" cy="20" r="1"/>
+                    <circle cx="18" cy="20" r="1"/>
+                </svg>
 
-            <!-- Logo -->
-            <a class="logo" href="#home" aria-label="Signature d'Algérie - Accueil">
-                <span>✿</span>
-                <strong>Signature d’Algérie</strong>
-                <small>MODE TRADITIONNELLE POUR MARIÉES</small>
-            </a>
+                <sup id="count">0</sup>
+            </button>
 
-            <!-- Header Actions -->
-            <div class="icons">
-
-                <button id="fav" type="button" aria-label="Favoris">
-                    ♡
-                </button>
-
-                <button id="cart" type="button" aria-label="Panier">
-                    ♧ <sup id="count">0</sup>
-                </button>
-
-                <button id="menu" type="button" aria-label="Ouvrir le menu">
-                    ☰
-                </button>
-
-            </div>
+            <!-- Mobile Menu -->
+            <button
+                id="menu"
+                class="menu-button"
+                type="button"
+                aria-label="Ouvrir le menu"
+                aria-expanded="false"
+                aria-controls="nav"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
         </div>
+    </div>
 
-        <!-- Navigation -->
-        <nav id="nav">
-            <a href="#home">Accueil</a>
-            <a href="#collections">Collections</a>
-            <a href="#about">À propos</a>
-            <a href="#designers">Designers</a>
-            <a href="#reviews">Avis clients</a>
-            <a href="#contact">Contact</a>
-        </nav>
+    <!-- Navigation -->
+    <nav id="nav" class="main-nav">
+        <a href="#home">Accueil</a>
+        <a href="#collections">Collections</a>
+        <a href="#about">À propos</a>
+        <a href="#designers">Designers</a>
+        <a href="#reviews">Avis clients</a>
+        <a href="#contact">Contact</a>
+    </nav>
 
-    </header>
+</header>
+
 
     <main>
 
@@ -112,77 +152,59 @@
         </section>
 
         <!-- Collections Section -->
-        <section class="section" id="collections">
+<section class="section" id="collections">
 
-            <div class="heading">
+    <div class="heading">
+        <p class="orn">── ✿ ──</p>
+        <h2>Nos Collections</h2>
+        <small>DES PIÈCES UNIQUES, UN HÉRITAGE À PORTER</small>
+    </div>
 
-                <p class="orn">── ✿ ──</p>
+    <div class="grid" id="grid">
 
-                <h2>Nos Collections</h2>
+        <article class="tile" data-category="Karakou" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg"
+                 alt="Karakou traditionnel algérien">
+            <b>Karakou</b>
+        </article>
 
-                <small>
-                    DES PIÈCES UNIQUES, UN HÉRITAGE À PORTER
-                </small>
+        <article class="tile" data-category="Caftan" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg"
+                 alt="Caftan algérien">
+            <b>Caftan Algérien</b>
+        </article>
 
-            </div>
+        <article class="tile" data-category="Blouza" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg"
+                 alt="Blouza oranaise">
+            <b>Blouza Oranaise</b>
+        </article>
 
-            <div class="grid" id="grid">
+        <article class="tile" data-category="Qendoura" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-29 at 23.51.25.jpeg"
+                 alt="Qendoura constantinoise">
+            <b>Qendoura Constantinoise</b>
+        </article>
 
-                <article class="tile" data-name="Karakou">
-                    <img
-                        src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg"
-                        alt="Karakou traditionnel algérien"
-                    >
-                    <b>Karakou</b>
-                </article>
+        <article class="tile" data-category="Chadda" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.02.42.jpeg"
+                 alt="Châdda tlemcenienne">
+            <b>Châdda Tlemcenienne</b>
+        </article>
 
-                <article class="tile" data-name="Caftan Algérien">
-                    <img
-                        src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg"
-                        alt="Caftan algérien"
-                    >
-                    <b>Caftan Algérien</b>
-                </article>
+        <article class="tile" data-category="Melhfa" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
+                 alt="Melhfa chaouia">
+            <b>Melhfa Chaouia</b>
+        </article>
 
-                <article class="tile" data-name="Blouza Oranaise">
-                    <img
-                        src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg"
-                        alt="Blouza oranaise"
-                    >
-                    <b>Blouza Oranaise</b>
-                </article>
+    </div>
 
-                <article class="tile" data-name="Qendoura Constantinoise">
-                    <img
-                        src="WhatsApp Image 2026-10-29 at 23.51.25.jpeg"
-                        alt="Qendoura constantinoise"
-                    >
-                    <b>Qendoura Constantinoise</b>
-                </article>
+    <p id="empty" hidden>
+        Aucun produit trouvé.
+    </p>
 
-                <article class="tile" data-name="Châdda Tlemcenienne">
-                    <img
-                        src="WhatsApp Image 2026-10-30 at 00.02.42.jpeg"
-                        alt="Châdda tlemcenienne"
-                    >
-                    <b>Châdda Tlemcenienne</b>
-                </article>
-
-                <article class="tile" data-name="Melhfa Chaouia">
-                    <img
-                        src="WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
-                        alt="Melhfa chaouia"
-                    >
-                    <b>Melhfa Chaouia</b>
-                </article>
-
-            </div>
-
-            <p id="empty" hidden>
-                Aucun résultat trouvé.
-            </p>
-
-        </section>
+</section>
 
         <!-- About Section -->
         <section class="about section" id="about">
