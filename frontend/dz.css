@@ -1102,3 +1102,279 @@ footer small {
 .tile.active b {
     color: #A58B6B;
 }
+
+.site-footer {
+    background: #292722;
+    color: #F8F6F2;
+    padding: 55px 8% 22px;
+    margin-top: 80px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+}
+
+.footer-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #F8F6F2;
+    text-decoration: none;
+}
+
+.footer-symbol {
+    color: #B49A78;
+    font-size: 27px;
+}
+
+.footer-logo strong {
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.footer-description {
+    color: #C8C1B7;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin: 15px 0 30px;
+}
+
+.footer-links a {
+    color: #E8E2D9;
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #B49A78;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(232, 226, 217, 0.18);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    color: #A9A399;
+    font-size: 11px;
+}
+
+@media (max-width: 600px) {
+    .site-footer {
+        padding: 45px 6% 20px;
+    }
+
+    .footer-links {
+        gap: 18px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* ==============================
+   ADD TO CART MODAL
+============================== */
+
+.cart-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    visibility: hidden;
+    opacity: 0;
+
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.cart-modal.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.cart-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(41, 39, 34, 0.55);
+    backdrop-filter: blur(3px);
+}
+
+.cart-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 38px;
+
+    background: #F8F6F2;
+
+    transform: translateY(15px);
+    transition: transform 0.3s ease;
+}
+
+.cart-modal.active .cart-modal-content {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+    color: #292722;
+
+    cursor: pointer;
+}
+
+.modal-subtitle {
+    margin-bottom: 12px;
+
+    color: #B49A78;
+
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+.cart-modal-content h2 {
+    margin-bottom: 10px;
+
+    color: #292722;
+
+    font-family: "Playfair Display", serif;
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.modal-product-name {
+    margin-bottom: 28px;
+
+    color: #8A8175;
+    font-size: 13px;
+    text-align: center;
+}
+
+.modal-field {
+    margin-bottom: 20px;
+}
+
+.modal-field label {
+    display: block;
+    margin-bottom: 9px;
+
+    color: #292722;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.modal-field select {
+    width: 100%;
+    padding: 13px;
+
+    border: 1px solid #E8E2D9;
+    border-radius: 0;
+
+    background: #FFFFFF;
+    color: #292722;
+
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+
+    outline: none;
+}
+
+.modal-field select:focus {
+    border-color: #B49A78;
+}
+
+.modal-quantity {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.modal-quantity button {
+    width: 35px;
+    height: 35px;
+
+    border: 1px solid #E8E2D9;
+    background: #FFFFFF;
+
+    color: #292722;
+    font-size: 19px;
+
+    cursor: pointer;
+}
+
+.modal-quantity span {
+    min-width: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.modal-add-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 15px;
+
+    border: 1px solid #292722;
+
+    background: #292722;
+    color: #FFFFFF;
+
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.modal-add-button:hover {
+    background: #B49A78;
+    border-color: #B49A78;
+}
+
+@media (max-width: 480px) {
+
+    .cart-modal-content {
+        padding: 32px 23px;
+    }
+
+    .cart-modal-content h2 {
+        font-size: 22px;
+    }
+}

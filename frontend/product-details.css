@@ -654,3 +654,23 @@ a {
 .color-option.selected {
     border-color: #B49A78;
 }
+.footer-description {
+    color: #665B50;
+}
+
+.footer-links a {
+    color: #292722;
+}
+
+.footer-links a:hover {
+    color: #9B7955;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(41, 39, 34, 0.18);
+    color: #665B50;
+}
+.site-footer {
+    background: #E9DDCD;
+    color: #292722;
+}
