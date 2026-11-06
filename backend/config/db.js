@@ -7,8 +7,15 @@ const connectDB = async () => {
     console.log("MongoDB Connected Successfully");
   } catch (error) {
     console.error("MongoDB Error:", error.name);
-    console.error("Reason:", error.reason);
-    console.error("Cause:", error.cause);
+    console.error("Message:", error.message);
+
+    if (error.reason?.servers) {
+      for (const [address, server] of error.reason.servers) {
+        console.error("Server:", address);
+        console.error("Server Error:", server.error?.message);
+      }
+    }
+
     process.exit(1);
   }
 };
