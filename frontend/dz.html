@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Découvrez Signature d’Algérie, une sélection de tenues traditionnelles algériennes : Karakou, Caftan, Blouza et bien plus.">
+
+    <title>Signature d’Algérie | Mode Traditionnelle</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="dz.css">
+</head>
+
+<body>
+<!-- Topbar -->
+<div class="topbar">
+    <span>🇩🇿 Livraison dans toute l’Algérie</span>
+    <span>— Le patrimoine algérien, notre plus belle signature —</span>
+    <span>Instagram · TikTok</span>
+</div>
+
+<!-- Header -->
+<header class="site-header">
+
+    <div class="head">
+
+        <!-- Search -->
+        <label class="search">
+            <svg
+                class="search-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                aria-hidden="true"
+            >
+                <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                <path d="m16 16 4.2 4.2"></path>
+            </svg>
+
+            <input
+                id="search"
+                type="search"
+                placeholder="Rechercher une collection..."
+                aria-label="Rechercher un produit"
+                autocomplete="off"
+            >
+        </label>
+
+        <!-- Logo -->
+        <a class="logo" href="#home" aria-label="Signature d’Algérie - Accueil">
+            <span class="logo-symbol">✿</span>
+            <strong>Signature d’Algérie</strong>
+            <small>L’ÉLÉGANCE DU PATRIMOINE ALGÉRIEN</small>
+        </a>
+
+        <!-- Header Actions -->
+        <div class="icons">
+
+            <!-- Cart -->
+            <button
+                id="cart"
+                type="button"
+                aria-label="Panier"
+                class="cart-button"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M3 3h2l2.4 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"/>
+                    <circle cx="10" cy="20" r="1"/>
+                    <circle cx="18" cy="20" r="1"/>
+                </svg>
+
+                <sup id="count">0</sup>
+            </button>
+
+            <!-- Mobile Menu -->
+            <button
+                id="menu"
+                class="menu-button"
+                type="button"
+                aria-label="Ouvrir le menu"
+                aria-expanded="false"
+                aria-controls="nav"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="nav" class="main-nav">
+        <a href="#home">Accueil</a>
+        <a href="#collections">Collections</a>
+        <a href="#about">À propos</a>
+        <a href="#designers">Designers</a>
+        <a href="#reviews">Avis clients</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+</header>
+
+
+    <main>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+
+            <div class="heroText">
+
+                <small>COLLECTION MARIÉES</small>
+
+                <h1>
+                    L’élégance de nos<br>
+                    traditions
+                </h1>
+
+                <p class="script">
+                    Le style algérien, intemporel
+                </p>
+
+                <p class="orn">── ✿ ──</p>
+
+                <a class="gold" href="#products">
+                    Découvrir la collection →
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- Collections Section -->
+<section class="section" id="collections">
+
+    <div class="heading">
+        <p class="orn">── ✿ ──</p>
+        <h2>Nos Collections</h2>
+        <small>DES PIÈCES UNIQUES, UN HÉRITAGE À PORTER</small>
+    </div>
+
+    <div class="grid" id="grid">
+
+        <article class="tile" data-category="Karakou" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.10.28.jpeg"
+                 alt="Karakou traditionnel algérien">
+            <b>Karakou</b>
+        </article>
+
+        <article class="tile" data-category="Caftan" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.04.32.jpeg"
+                 alt="Caftan algérien">
+            <b>Caftan Algérien</b>
+        </article>
+
+        <article class="tile" data-category="Blouza" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg"
+                 alt="Blouza oranaise">
+            <b>Blouza Oranaise</b>
+        </article>
+
+        <article class="tile" data-category="Qendoura" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-29 at 23.51.25.jpeg"
+                 alt="Qendoura constantinoise">
+            <b>Qendoura Constantinoise</b>
+        </article>
+
+        <article class="tile" data-category="Chadda" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.02.42.jpeg"
+                 alt="Châdda tlemcenienne">
+            <b>Châdda Tlemcenienne</b>
+        </article>
+
+        <article class="tile" data-category="Melhfa" tabindex="0" role="button">
+            <img src="WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
+                 alt="Melhfa chaouia">
+            <b>Melhfa Chaouia</b>
+        </article>
+
+    </div>
+
+    <p id="empty" hidden>
+        Aucun produit trouvé.
+    </p>
+
+</section>
+
+        <!-- About Section -->
+        <section class="about section" id="about">
+
+            <div class="aboutpic"></div>
+
+            <div>
+
+                <small>NOTRE HISTOIRE</small>
+
+                <h2>
+                    Un héritage.<br>
+                    Une élégance. Une signature.
+                </h2>
+
+                <p>
+                    Chez <b>Signature d’Algérie</b>, nous célébrons
+                    la richesse du patrimoine vestimentaire algérien.
+                    Chaque tenue raconte une histoire et rend hommage
+                    à un savoir-faire transmis de génération en génération.
+                </p>
+
+                <a href="#contact">En savoir plus →</a>
+
+            </div>
+
+        </section>
+
+        <!-- Products Section -->
+        <section class="section" id="products">
+
+            <div class="section-heading">
+
+                <span class="section-eyebrow">
+                    SÉLECTION EXCLUSIVE
+                </span>
+
+                <h2>
+                    Nos pièces
+                    <span>intemporelles.</span>
+                </h2>
+
+                <p>
+                    L’élégance de l’artisanat algérien,
+                    dans chaque détail.
+                </p>
+
+                <div class="heading-line"></div>
+
+            </div>
+
+            <!-- Products loaded dynamically from Backend -->
+            <div class="products" id="products-list">
+
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-line title-line"></div>
+                    <div class="skeleton-line price-line"></div>
+                    <div class="skeleton-button"></div>
+                </div>
+
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-line title-line"></div>
+                    <div class="skeleton-line price-line"></div>
+                    <div class="skeleton-button"></div>
+                </div>
+
+                <div class="product-skeleton">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-line title-line"></div>
+                    <div class="skeleton-line price-line"></div>
+                    <div class="skeleton-button"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Designers Section -->
+        <section class="designers" id="designers">
+
+            <div class="section-title">
+
+                <span>OUR TALENTS</span>
+
+                <h2>Nos Créateurs</h2>
+
+                <p>
+                    Découvrez les créateurs qui préservent
+                    et réinventent la beauté de la mode algérienne.
+                </p>
+
+            </div>
+
+            <div class="designers-container">
+
+                <div class="designer-card">
+
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 01.21.56.jpeg"
+                        alt="Créatrice de Karakou"
+                    >
+
+                    <div class="designer-info">
+                        <h3>Créatrice de Karakou</h3>
+                        <p>Oran, Algérie</p>
+                        <span>Spécialité : Karakou traditionnel</span>
+                    </div>
+
+                </div>
+
+                <div class="designer-card">
+
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 01.20.21.jpeg"
+                        alt="Créatrice de Caftan"
+                    >
+
+                    <div class="designer-info">
+                        <h3>Créatrice de Caftan</h3>
+                        <p>Tlemcen, Algérie</p>
+                        <span>Spécialité : Caftan algérien</span>
+                    </div>
+
+                </div>
+
+                <div class="designer-card">
+
+                    <img
+                        src="WhatsApp Image 2026-10-30 at 01.16.56.jpeg"
+                        alt="Créatrice de Blouza"
+                    >
+
+                    <div class="designer-info">
+                        <h3>Créatrice de Blouza</h3>
+                        <p>Oran, Algérie</p>
+                        <span>Spécialité : Blouza oranaise</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="join-designers">
+
+                <h2>Vous êtes créateur ?</h2>
+
+                <p>
+                    Rejoignez Signature d’Algérie et partagez
+                    votre talent avec le monde.
+                </p>
+
+                <a
+                    href="mailto:contact@signature-algerie.com"
+                    class="designer-btn"
+                >
+                    Devenir partenaire
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="review section" id="reviews">
+
+            <p class="orn">── ✿ ──</p>
+
+            <h2>Une signature qui vous ressemble</h2>
+
+            <p>
+                « Des détails magnifiques et une élégance
+                qui met à l’honneur nos traditions. »
+            </p>
+
+            <small>
+                Exemple d’avis — à remplacer par un témoignage réel
+            </small>
+
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact section" id="contact">
+
+            <small>RESTONS EN CONTACT</small>
+
+            <h2>Votre tenue, votre histoire.</h2>
+
+            <p>
+                Pour une commande ou une demande d’information,
+                contactez-nous.
+            </p>
+
+            <a
+                class="gold"
+                href="https://wa.me/213000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Nous contacter sur WhatsApp →
+            </a>
+
+        </section>
+
+    </main>
+
+    
+<!-- Footer -->
+<footer class="site-footer">
+
+    <div class="footer-content">
+
+        <a href="dz.html#home" class="footer-logo">
+            <span class="footer-symbol">✿</span>
+            <strong>Signature d’Algérie</strong>
+        </a>
+
+        <p class="footer-description">
+            L’élégance de notre patrimoine, 
+            la beauté de nos traditions.
+        </p>
+
+        <nav class="footer-links">
+            <a href="dz.html#home">Accueil</a>
+            <a href="dz.html#collections">Collections</a>
+            <a href="dz.html#about">Notre histoire</a>
+            <a href="dz.html#contact">Contact</a>
+        </nav>
+
+    </div>
+
+    <div class="footer-bottom">
+        <span>© 2026 Signature d’Algérie</span>
+        <span>Le patrimoine algérien, notre signature.</span>
+    </div>
+
+</footer>
+
+
+    <!-- Toast Notification -->
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <!-- JavaScript -->
+    <script src="dz.js" defer></script>
+
+</body>
+</html>
