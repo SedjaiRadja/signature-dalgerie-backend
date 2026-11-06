@@ -1,6 +1,4 @@
-
-const API_URL = "http://localhost:5000/api";
-
+const API_URL = "https://signature-dalgerie-backend.onrender.com/api";
 // ==============================
 // DOM ELEMENTS
 // ==============================
@@ -34,577 +32,508 @@ let selectedColor = null;
 let cart = Number(localStorage.getItem("cartCount") || 0);
 
 if (cartCount) {
-    cartCount.textContent = cart;
+  cartCount.textContent = cart;
 }
-
 
 // ==============================
 // HEADER NAVIGATION
 // ==============================
 
 if (menuButton && navigation) {
+  menuButton.addEventListener("click", () => {
+    const isOpen = navigation.classList.toggle("open");
 
-    menuButton.addEventListener("click", () => {
+    menuButton.setAttribute("aria-expanded", isOpen);
 
-        const isOpen = navigation.classList.toggle("open");
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? "Fermer le menu" : "Ouvrir le menu",
+    );
+  });
 
-        menuButton.setAttribute("aria-expanded", isOpen);
+  // Close menu after selecting a link
+  navigation.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navigation.classList.remove("open");
 
-        menuButton.setAttribute(
-            "aria-label",
-            isOpen ? "Fermer le menu" : "Ouvrir le menu"
-        );
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Ouvrir le menu");
     });
-
-    // Close menu after selecting a link
-    navigation.querySelectorAll("a").forEach(link => {
-
-        link.addEventListener("click", () => {
-
-            navigation.classList.remove("open");
-
-            menuButton.setAttribute("aria-expanded", "false");
-            menuButton.setAttribute("aria-label", "Ouvrir le menu");
-        });
-    });
+  });
 }
 
-
 // Close menu with Escape
-document.addEventListener("keydown", event => {
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navigation && menuButton) {
+    navigation.classList.remove("open");
 
-    if (event.key === "Escape" && navigation && menuButton) {
-
-        navigation.classList.remove("open");
-
-        menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", "Ouvrir le menu");
-    }
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Ouvrir le menu");
+  }
 });
-
 
 // ==============================
 // HEADER SEARCH
 // ==============================
 
 if (searchInput) {
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
 
-    searchInput.addEventListener("keydown", event => {
+      const query = searchInput.value.trim();
 
-        if (event.key === "Enter") {
+      if (!query) return;
 
-            event.preventDefault();
+      window.location.href = `dz.html?search=${encodeURIComponent(query)}#products`;
+    }
 
-            const query = searchInput.value.trim();
-
-            if (!query) return;
-
-            window.location.href =
-                `dz.html?search=${encodeURIComponent(query)}#products`;
-        }
-
-        if (event.key === "Escape") {
-            searchInput.value = "";
-            searchInput.blur();
-        }
-    });
+    if (event.key === "Escape") {
+      searchInput.value = "";
+      searchInput.blur();
+    }
+  });
 }
-
 
 // ==============================
 // CART COUNTER
 // ==============================
 
-
 function updateCartCount() {
+  let cartItems = [];
 
-    let cartItems = [];
+  try {
+    cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  } catch (error) {
+    cartItems = [];
+  }
 
-    try {
-        cartItems = JSON.parse(
-            localStorage.getItem("cartItems") || "[]"
-        );
-    } catch (error) {
-        cartItems = [];
-    }
+  cart = cartItems.reduce((total, item) => {
+    return total + Number(item.quantity || 0);
+  }, 0);
 
-    cart = cartItems.reduce((total, item) => {
-        return total + Number(item.quantity || 0);
-    }, 0);
+  if (cartCount) {
+    cartCount.textContent = cart;
+  }
 
-    if (cartCount) {
-        cartCount.textContent = cart;
-    }
-
-    localStorage.setItem("cartCount", cart);
+  localStorage.setItem("cartCount", cart);
 }
 
 updateCartCount();
 
-
 // Header cart button
 if (cartButton) {
-
-    cartButton.addEventListener("click", () => {
-        window.location.href = "cart.html";
-    });
+  cartButton.addEventListener("click", () => {
+    window.location.href = "cart.html";
+  });
 }
-
 
 // ==============================
 // LOCAL IMAGES FALLBACK
 // ==============================
 
 const localImages = {
-    Karakou: "images/WhatsApp Image 2026-10-30 at 00.10.28.jpeg",
-    Caftan: "images/WhatsApp Image 2026-10-30 at 00.04.32.jpeg",
-    Qendoura: "images/WhatsApp Image 2026-10-29 at 23.51.25.jpeg",
-    Blouza: "images/WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg",
-    Chadda: "images/WhatsApp Image 2026-10-30 at 00.02.42.jpeg",
-    Melhfa: "images/WhatsApp Image 2026-10-30 at 00.43.54.jpeg"
+  Karakou: "images/WhatsApp Image 2026-10-30 at 00.10.28.jpeg",
+  Caftan: "images/WhatsApp Image 2026-10-30 at 00.04.32.jpeg",
+  Qendoura: "images/WhatsApp Image 2026-10-29 at 23.51.25.jpeg",
+  Blouza: "images/WhatsApp Image 2026-10-29 at 23.59.25 (1).jpeg",
+  Chadda: "images/WhatsApp Image 2026-10-30 at 00.02.42.jpeg",
+  Melhfa: "images/WhatsApp Image 2026-10-30 at 00.43.54.jpeg",
 };
-
 
 // ==============================
 // COLOR TRANSLATIONS
 // ==============================
 
 const colorTranslations = {
-    black: "Noir",
-    white: "Blanc",
-    red: "Rouge",
-    blue: "Bleu",
-    green: "Vert",
-    pink: "Rose",
-    beige: "Beige",
-    gold: "Doré",
-    silver: "Argenté",
-    brown: "Marron",
-    yellow: "Jaune",
-    purple: "Violet",
+  black: "Noir",
+  white: "Blanc",
+  red: "Rouge",
+  blue: "Bleu",
+  green: "Vert",
+  pink: "Rose",
+  beige: "Beige",
+  gold: "Doré",
+  silver: "Argenté",
+  brown: "Marron",
+  yellow: "Jaune",
+  purple: "Violet",
 
-    noir: "Noir",
-    blanc: "Blanc",
-    rouge: "Rouge",
-    bleu: "Bleu",
-    vert: "Vert",
-    rose: "Rose",
-    dore: "Doré",
-    "doré": "Doré",
-    argent: "Argenté",
-    "argenté": "Argenté",
-    marron: "Marron",
-    jaune: "Jaune",
-    violet: "Violet"
+  noir: "Noir",
+  blanc: "Blanc",
+  rouge: "Rouge",
+  bleu: "Bleu",
+  vert: "Vert",
+  rose: "Rose",
+  dore: "Doré",
+  doré: "Doré",
+  argent: "Argenté",
+  argenté: "Argenté",
+  marron: "Marron",
+  jaune: "Jaune",
+  violet: "Violet",
 };
-
 
 // Color HEX
 const colorHex = {
-    Noir: "#222222",
-    Blanc: "#FFFFFF",
-    Rouge: "#C62828",
-    Bleu: "#2455A4",
-    Vert: "#47734B",
-    Rose: "#E8A1B5",
-    Beige: "#D8C3A5",
-    Doré: "#C5A044",
-    Argenté: "#C0C0C0",
-    Marron: "#795548",
-    Jaune: "#F4D03F",
-    Violet: "#8054A1"
+  Noir: "#222222",
+  Blanc: "#FFFFFF",
+  Rouge: "#C62828",
+  Bleu: "#2455A4",
+  Vert: "#47734B",
+  Rose: "#E8A1B5",
+  Beige: "#D8C3A5",
+  Doré: "#C5A044",
+  Argenté: "#C0C0C0",
+  Marron: "#795548",
+  Jaune: "#F4D03F",
+  Violet: "#8054A1",
 };
-
 
 // Convert colors to French
 function normalizeColor(color) {
+  const key = String(color).trim().toLowerCase();
 
-    const key = String(color).trim().toLowerCase();
-
-    return colorTranslations[key] || color;
+  return colorTranslations[key] || color;
 }
-
 
 // ==============================
 // PRODUCT IMAGES
 // ==============================
 
 function getProductImages(product) {
+  const fallback = localImages[product.category];
 
-    const fallback = localImages[product.category];
+  const validImages = (product.images || []).filter(
+    (image) => image && !image.includes("example.com"),
+  );
 
-    const validImages = (product.images || []).filter(image =>
-        image && !image.includes("example.com")
-    );
+  const images =
+    validImages.length > 0 ? validImages : fallback ? [fallback] : [];
 
-    const images = validImages.length > 0
-        ? validImages
-        : fallback
-            ? [fallback]
-            : [];
-
-    return [...new Set(images)];
+  return [...new Set(images)];
 }
-
 
 // ==============================
 // LOAD PRODUCT
 // ==============================
 
 async function loadProduct() {
+  if (!productId) {
+    showError();
+    return;
+  }
 
-    if (!productId) {
-        showError();
-        return;
+  try {
+    const response = await fetch(
+      `${API_URL}/products/${encodeURIComponent(productId)}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Produit introuvable");
     }
 
-    try {
+    const data = await response.json();
 
-        const response = await fetch(
-            `${API_URL}/products/${encodeURIComponent(productId)}`
-        );
+    product = data.product || data;
 
-        if (!response.ok) {
-            throw new Error("Produit introuvable");
-        }
-
-        const data = await response.json();
-
-        product = data.product || data;
-
-        if (!product || !product._id) {
-            throw new Error("Données produit invalides");
-        }
-
-        displayProduct();
-
-    } catch (err) {
-
-        console.error("Product details error:", err);
-
-        showError();
+    if (!product || !product._id) {
+      throw new Error("Données produit invalides");
     }
+
+    displayProduct();
+  } catch (err) {
+    console.error("Product details error:", err);
+
+    showError();
+  }
 }
-
 
 // ==============================
 // DISPLAY PRODUCT
 // ==============================
 
 function displayProduct() {
+  loading.hidden = true;
+  details.hidden = false;
 
-    loading.hidden = true;
-    details.hidden = false;
+  document.title = `${product.name} | Signature d'Algérie`;
 
-    document.title =
-        `${product.name} | Signature d'Algérie`;
+  document.getElementById("product-category").textContent =
+    product.category || "";
 
-    document.getElementById("product-category").textContent =
-        product.category || "";
+  document.getElementById("image-category").textContent =
+    product.category || "";
 
-    document.getElementById("image-category").textContent =
-        product.category || "";
+  document.getElementById("product-name").textContent = product.name || "";
 
-    document.getElementById("product-name").textContent =
-        product.name || "";
+  document.getElementById("product-price").textContent =
+    `${Number(product.price).toLocaleString("fr-FR")} DA`;
 
-    document.getElementById("product-price").textContent =
-        `${Number(product.price).toLocaleString("fr-FR")} DA`;
+  document.getElementById("product-description").textContent =
+    product.description || "Aucune description disponible.";
 
-    document.getElementById("product-description").textContent =
-        product.description || "Aucune description disponible.";
+  document.getElementById("info-category").textContent = product.category || "";
 
-    document.getElementById("info-category").textContent =
-        product.category || "";
+  // Display sizes and colors
+  displayOptions(product);
 
-    // Display sizes and colors
-    displayOptions(product);
+  // Display images
+  const images = getProductImages(product);
 
-    // Display images
-    const images = getProductImages(product);
+  if (images.length > 0) {
+    displayImages(images);
+  } else if (mainImage) {
+    mainImage.alt = product.name;
+  }
 
-    if (images.length > 0) {
-        displayImages(images);
-    } else if (mainImage) {
-        mainImage.alt = product.name;
-    }
-
-    // Stock and availability
-    updateStock();
+  // Stock and availability
+  updateStock();
 }
-
 
 // ==============================
 // DISPLAY PRODUCT OPTIONS
 // ==============================
 
 function displayOptions(product) {
+  const sizesContainer = document.getElementById("product-sizes");
+  const colorsContainer = document.getElementById("product-colors");
 
-    const sizesContainer = document.getElementById("product-sizes");
-    const colorsContainer = document.getElementById("product-colors");
+  if (!sizesContainer || !colorsContainer) {
+    console.error("Product options elements not found.");
+    return;
+  }
 
-    if (!sizesContainer || !colorsContainer) {
-        console.error("Product options elements not found.");
-        return;
-    }
+  selectedSize = null;
+  selectedColor = null;
 
-    selectedSize = null;
-    selectedColor = null;
+  sizesContainer.innerHTML = "";
+  colorsContainer.innerHTML = "";
 
-    sizesContainer.innerHTML = "";
-    colorsContainer.innerHTML = "";
+  // Available sizes
+  (product.sizes || []).forEach((size) => {
+    const button = document.createElement("button");
 
+    button.type = "button";
+    button.className = "option-btn";
+    button.textContent = size;
 
-    // Available sizes
-    (product.sizes || []).forEach(size => {
+    button.addEventListener("click", () => {
+      sizesContainer
+        .querySelectorAll(".option-btn")
+        .forEach((btn) => btn.classList.remove("selected"));
 
-        const button = document.createElement("button");
+      button.classList.add("selected");
 
-        button.type = "button";
-        button.className = "option-btn";
-        button.textContent = size;
-
-        button.addEventListener("click", () => {
-
-            sizesContainer.querySelectorAll(".option-btn")
-                .forEach(btn => btn.classList.remove("selected"));
-
-            button.classList.add("selected");
-
-            selectedSize = size;
-        });
-
-        sizesContainer.appendChild(button);
+      selectedSize = size;
     });
 
+    sizesContainer.appendChild(button);
+  });
 
-    // Available colors
-    (product.colors || []).forEach(color => {
+  // Available colors
+  (product.colors || []).forEach((color) => {
+    const frenchColor = normalizeColor(color);
 
-        const frenchColor = normalizeColor(color);
+    const button = document.createElement("button");
 
-        const button = document.createElement("button");
+    button.type = "button";
+    button.className = "color-option";
+    button.title = frenchColor;
 
-        button.type = "button";
-        button.className = "color-option";
-        button.title = frenchColor;
+    const circle = document.createElement("span");
 
-        const circle = document.createElement("span");
+    circle.className = "color-circle";
 
-        circle.className = "color-circle";
+    circle.style.backgroundColor = colorHex[frenchColor] || "#CCCCCC";
 
-        circle.style.backgroundColor =
-            colorHex[frenchColor] || "#CCCCCC";
+    const label = document.createElement("span");
 
-        const label = document.createElement("span");
+    label.textContent = frenchColor;
 
-        label.textContent = frenchColor;
+    button.appendChild(circle);
+    button.appendChild(label);
 
-        button.appendChild(circle);
-        button.appendChild(label);
+    button.addEventListener("click", () => {
+      colorsContainer
+        .querySelectorAll(".color-option")
+        .forEach((btn) => btn.classList.remove("selected"));
 
-        button.addEventListener("click", () => {
+      button.classList.add("selected");
 
-            colorsContainer.querySelectorAll(".color-option")
-                .forEach(btn => btn.classList.remove("selected"));
-
-            button.classList.add("selected");
-
-            selectedColor = frenchColor;
-        });
-
-        colorsContainer.appendChild(button);
+      selectedColor = frenchColor;
     });
+
+    colorsContainer.appendChild(button);
+  });
 }
-
 
 // ==============================
 // DISPLAY PRODUCT IMAGES
 // ==============================
 
 function displayImages(images) {
+  if (!mainImage || !thumbnails) return;
 
-    if (!mainImage || !thumbnails) return;
+  mainImage.src = images[0];
+  mainImage.alt = product.name;
 
-    mainImage.src = images[0];
-    mainImage.alt = product.name;
+  thumbnails.innerHTML = "";
 
-    thumbnails.innerHTML = "";
+  images.forEach((image, index) => {
+    const button = document.createElement("button");
 
-    images.forEach((image, index) => {
+    button.type = "button";
+    button.className = "thumbnail";
 
-        const button = document.createElement("button");
+    if (index === 0) {
+      button.classList.add("active");
+    }
 
-        button.type = "button";
-        button.className = "thumbnail";
+    const img = document.createElement("img");
 
-        if (index === 0) {
-            button.classList.add("active");
-        }
+    img.src = image;
+    img.alt = `${product.name} ${index + 1}`;
 
-        const img = document.createElement("img");
+    button.appendChild(img);
 
-        img.src = image;
-        img.alt = `${product.name} ${index + 1}`;
+    button.addEventListener("click", () => {
+      mainImage.src = image;
 
-        button.appendChild(img);
+      thumbnails
+        .querySelectorAll(".thumbnail")
+        .forEach((item) => item.classList.remove("active"));
 
-        button.addEventListener("click", () => {
-
-            mainImage.src = image;
-
-            thumbnails.querySelectorAll(".thumbnail")
-                .forEach(item => item.classList.remove("active"));
-
-            button.classList.add("active");
-        });
-
-        thumbnails.appendChild(button);
+      button.classList.add("active");
     });
 
+    thumbnails.appendChild(button);
+  });
 
-    // Fallback image
-    mainImage.onerror = () => {
+  // Fallback image
+  mainImage.onerror = () => {
+    mainImage.onerror = null;
 
-        mainImage.onerror = null;
+    const fallback = localImages[product.category];
 
-        const fallback = localImages[product.category];
-
-        if (fallback && mainImage.src !== fallback) {
-            mainImage.src = fallback;
-        }
-    };
+    if (fallback && mainImage.src !== fallback) {
+      mainImage.src = fallback;
+    }
+  };
 }
-
 
 // ==============================
 // STOCK AND AVAILABILITY
 // ==============================
 
 function updateStock() {
+  const stock = Number(product.stock) || 0;
+  const isActive = product.isActive !== false;
 
-    const stock = Number(product.stock) || 0;
-    const isActive = product.isActive !== false;
+  const stockText = document.getElementById("product-stock");
+  const stockDot = document.getElementById("stock-dot");
 
-    const stockText = document.getElementById("product-stock");
-    const stockDot = document.getElementById("stock-dot");
+  const statusText = document.getElementById("product-status");
 
-    const statusText = document.getElementById("product-status");
+  const addButton = document.getElementById("add-to-cart");
+  const quantitySection = document.getElementById("quantity-section");
 
-    const addButton = document.getElementById("add-to-cart");
-    const quantitySection = document.getElementById("quantity-section");
-
-    if (!isActive) {
-
-        if (statusText) {
-            statusText.textContent = "Produit actuellement indisponible";
-        }
-
-        if (stockText) {
-            stockText.textContent = "Produit désactivé";
-        }
-
-    } else if (stock > 0) {
-
-        if (statusText) {
-            statusText.textContent = "Produit disponible";
-        }
-
-        if (stockText) {
-            stockText.textContent = `${stock} pièces disponibles`;
-        }
-
-    } else {
-
-        if (statusText) {
-            statusText.textContent = "Produit temporairement indisponible";
-        }
-
-        if (stockText) {
-            stockText.textContent = "Rupture de stock";
-        }
+  if (!isActive) {
+    if (statusText) {
+      statusText.textContent = "Produit actuellement indisponible";
     }
 
-    const available = isActive && stock > 0;
-
-    if (stockDot) {
-        stockDot.classList.toggle("out", !available);
+    if (stockText) {
+      stockText.textContent = "Produit désactivé";
+    }
+  } else if (stock > 0) {
+    if (statusText) {
+      statusText.textContent = "Produit disponible";
     }
 
-    if (addButton) {
-        addButton.disabled = !available;
+    if (stockText) {
+      stockText.textContent = `${stock} pièces disponibles`;
+    }
+  } else {
+    if (statusText) {
+      statusText.textContent = "Produit temporairement indisponible";
     }
 
-    if (quantitySection) {
-        quantitySection.hidden = !available;
+    if (stockText) {
+      stockText.textContent = "Rupture de stock";
     }
+  }
 
-    updateQuantityButtons();
+  const available = isActive && stock > 0;
+
+  if (stockDot) {
+    stockDot.classList.toggle("out", !available);
+  }
+
+  if (addButton) {
+    addButton.disabled = !available;
+  }
+
+  if (quantitySection) {
+    quantitySection.hidden = !available;
+  }
+
+  updateQuantityButtons();
 }
-
 
 // ==============================
 // QUANTITY
 // ==============================
 
 function updateQuantityButtons() {
+  if (quantityElement) {
+    quantityElement.textContent = quantity;
+  }
 
-    if (quantityElement) {
-        quantityElement.textContent = quantity;
-    }
+  const decreaseButton = document.getElementById("decrease");
+  const increaseButton = document.getElementById("increase");
 
-    const decreaseButton = document.getElementById("decrease");
-    const increaseButton = document.getElementById("increase");
+  if (decreaseButton) {
+    decreaseButton.disabled = quantity <= 1;
+  }
 
-    if (decreaseButton) {
-        decreaseButton.disabled = quantity <= 1;
-    }
-
-    if (increaseButton) {
-
-        increaseButton.disabled =
-            !product ||
-            product.isActive === false ||
-            quantity >= Number(product.stock);
-    }
+  if (increaseButton) {
+    increaseButton.disabled =
+      !product ||
+      product.isActive === false ||
+      quantity >= Number(product.stock);
+  }
 }
-
 
 // Increase quantity
 const increaseButton = document.getElementById("increase");
 
 if (increaseButton) {
+  increaseButton.addEventListener("click", () => {
+    if (
+      product &&
+      product.isActive !== false &&
+      quantity < Number(product.stock)
+    ) {
+      quantity++;
 
-    increaseButton.addEventListener("click", () => {
-
-        if (
-            product &&
-            product.isActive !== false &&
-            quantity < Number(product.stock)
-        ) {
-            quantity++;
-
-            updateQuantityButtons();
-        }
-    });
+      updateQuantityButtons();
+    }
+  });
 }
-
 
 // Decrease quantity
 const decreaseButton = document.getElementById("decrease");
 
 if (decreaseButton) {
+  decreaseButton.addEventListener("click", () => {
+    if (quantity > 1) {
+      quantity--;
 
-    decreaseButton.addEventListener("click", () => {
-
-        if (quantity > 1) {
-            quantity--;
-
-            updateQuantityButtons();
-        }
-    });
+      updateQuantityButtons();
+    }
+  });
 }
-
 
 // ==============================
 // ADD TO CART
@@ -613,124 +542,94 @@ if (decreaseButton) {
 const addToCartButton = document.getElementById("add-to-cart");
 
 if (addToCartButton) {
+  addToCartButton.addEventListener("click", () => {
+    if (!product || product.isActive === false || Number(product.stock) <= 0) {
+      return;
+    }
 
-    addToCartButton.addEventListener("click", () => {
+    // Validate size
+    if (product.sizes?.length > 0 && !selectedSize) {
+      alert("Veuillez choisir une taille.");
 
-        if (
-            !product ||
-            product.isActive === false ||
-            Number(product.stock) <= 0
-        ) {
-            return;
-        }
+      return;
+    }
 
+    // Validate color
+    if (product.colors?.length > 0 && !selectedColor) {
+      alert("Veuillez choisir une couleur.");
 
-        // Validate size
-        if (product.sizes?.length > 0 && !selectedSize) {
+      return;
+    }
 
-            alert("Veuillez choisir une taille.");
+    // Get cart items
+    let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
-            return;
-        }
+    // Find same product with same options
+    const existingItem = cartItems.find(
+      (item) =>
+        item.productId === product._id &&
+        item.size === selectedSize &&
+        item.color === selectedColor,
+    );
 
+    // Check available stock
+    const currentQuantity = existingItem
+      ? Number(existingItem.quantity) || 0
+      : 0;
 
-        // Validate color
-        if (product.colors?.length > 0 && !selectedColor) {
+    if (currentQuantity + quantity > Number(product.stock)) {
+      alert("Quantité demandée indisponible en stock.");
 
-            alert("Veuillez choisir une couleur.");
+      return;
+    }
 
-            return;
-        }
+    // Update or add product
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cartItems.push({
+        productId: product._id,
+        name: product.name,
+        price: Number(product.price),
+        image: getProductImages(product)[0] || "",
+        size: selectedSize,
+        color: selectedColor,
+        quantity: quantity,
+      });
+    }
 
+    // Save cart
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
 
-        // Get cart items
-        let cartItems = JSON.parse(
-            localStorage.getItem("cartItems") || "[]"
-        );
+    // Update counter
+    updateCartCount();
 
+    // Confirmation message
+    const message = document.getElementById("cart-message");
 
-        // Find same product with same options
-        const existingItem = cartItems.find(item =>
-            item.productId === product._id &&
-            item.size === selectedSize &&
-            item.color === selectedColor
-        );
+    if (message) {
+      message.textContent = "Produit ajouté au panier avec succès !";
 
+      clearTimeout(messageTimer);
 
-        // Check available stock
-        const currentQuantity = existingItem
-            ? Number(existingItem.quantity) || 0
-            : 0;
-
-        if (currentQuantity + quantity > Number(product.stock)) {
-
-            alert("Quantité demandée indisponible en stock.");
-
-            return;
-        }
-
-
-        // Update or add product
-        if (existingItem) {
-
-            existingItem.quantity += quantity;
-
-        } else {
-
-            cartItems.push({
-                productId: product._id,
-                name: product.name,
-                price: Number(product.price),
-                image: getProductImages(product)[0] || "",
-                size: selectedSize,
-                color: selectedColor,
-                quantity: quantity
-            });
-        }
-
-
-        // Save cart
-        localStorage.setItem(
-            "cartItems",
-            JSON.stringify(cartItems)
-        );
-
-
-        // Update counter
-updateCartCount();
-
-
-        // Confirmation message
-        const message = document.getElementById("cart-message");
-
-        if (message) {
-
-            message.textContent =
-                "Produit ajouté au panier avec succès !";
-
-            clearTimeout(messageTimer);
-
-            messageTimer = setTimeout(() => {
-                message.textContent = "";
-            }, 2500);
-        }
-    });
+      messageTimer = setTimeout(() => {
+        message.textContent = "";
+      }, 2500);
+    }
+  });
 }
-
 
 // ==============================
 // SHOW ERROR
 // ==============================
 
 function showError() {
+  if (loading) loading.hidden = true;
 
-    if (loading) loading.hidden = true;
+  if (details) details.hidden = true;
 
-    if (details) details.hidden = true;
-
-    if (errorElement) errorElement.hidden = false;
+  if (errorElement) errorElement.hidden = false;
 }
-
 
 // ==============================
 // START

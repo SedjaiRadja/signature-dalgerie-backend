@@ -1,6 +1,4 @@
-
-const API_URL = "http://localhost:5000/api";
-
+const API_URL = "https://signature-dalgerie-backend.onrender.com/api";
 // ==============================
 // DOM ELEMENTS
 // ==============================
@@ -29,552 +27,511 @@ const messageElement = document.getElementById("cart-message");
 let cartEntries = [];
 let messageTimer;
 
-
 // ==============================
 // LOCAL STORAGE
 // ==============================
 
 function getStoredCart() {
-    try {
-        const cart = JSON.parse(
-            localStorage.getItem("cartItems") || "[]"
-        );
+  try {
+    const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
-        return Array.isArray(cart) ? cart : [];
-
-    } catch (error) {
-        console.error("Cart storage error:", error);
-        return [];
-    }
+    return Array.isArray(cart) ? cart : [];
+  } catch (error) {
+    console.error("Cart storage error:", error);
+    return [];
+  }
 }
-
 
 function saveCart() {
-    const items = cartEntries.map(entry => entry.item);
+  const items = cartEntries.map((entry) => entry.item);
 
-    localStorage.setItem("cartItems", JSON.stringify(items));
+  localStorage.setItem("cartItems", JSON.stringify(items));
 
-    updateCartCounter();
+  updateCartCounter();
 }
-
 
 function updateCartCounter() {
-    const cart = getStoredCart();
+  const cart = getStoredCart();
 
-    const total = cart.reduce((sum, item) => {
-        return sum + (Number(item.quantity) || 0);
-    }, 0);
+  const total = cart.reduce((sum, item) => {
+    return sum + (Number(item.quantity) || 0);
+  }, 0);
 
-    localStorage.setItem("cartCount", total);
+  localStorage.setItem("cartCount", total);
 
-    if (countElement) {
-        countElement.textContent = total;
-    }
+  if (countElement) {
+    countElement.textContent = total;
+  }
 }
-
 
 // ==============================
 // FORMAT PRICE
 // ==============================
 
 function formatPrice(price) {
-    return `${Number(price || 0).toLocaleString("fr-FR")} DA`;
+  return `${Number(price || 0).toLocaleString("fr-FR")} DA`;
 }
-
 
 // ==============================
 // NOTIFICATION
 // ==============================
 
 function showMessage(message) {
-    if (!messageElement) return;
+  if (!messageElement) return;
 
-    messageElement.textContent = message;
-    messageElement.classList.add("show");
+  messageElement.textContent = message;
+  messageElement.classList.add("show");
 
-    clearTimeout(messageTimer);
+  clearTimeout(messageTimer);
 
-    messageTimer = setTimeout(() => {
-        messageElement.classList.remove("show");
-    }, 2800);
+  messageTimer = setTimeout(() => {
+    messageElement.classList.remove("show");
+  }, 2800);
 }
-
 
 // ==============================
 // FETCH PRODUCT FROM API
 // ==============================
 
 async function getProduct(productId) {
-    const response = await fetch(
-        `${API_URL}/products/${encodeURIComponent(productId)}`
-    );
+  const response = await fetch(
+    `${API_URL}/products/${encodeURIComponent(productId)}`,
+  );
 
-    if (!response.ok) {
-        throw new Error("Produit introuvable");
-    }
+  if (!response.ok) {
+    throw new Error("Produit introuvable");
+  }
 
-    const data = await response.json();
+  const data = await response.json();
 
-    const product = data.product || data;
+  const product = data.product || data;
 
-    if (!product || !product._id) {
-        throw new Error("Données produit invalides");
-    }
+  if (!product || !product._id) {
+    throw new Error("Données produit invalides");
+  }
 
-    return product;
+  return product;
 }
-
 
 // ==============================
 // LOAD CART
 // ==============================
 
 async function loadCart() {
-    const storedCart = getStoredCart();
+  const storedCart = getStoredCart();
 
-    updateCartCounter();
+  updateCartCounter();
 
-    if (storedCart.length === 0) {
-        showEmptyCart();
-        return;
-    }
+  if (storedCart.length === 0) {
+    showEmptyCart();
+    return;
+  }
 
-    try {
-        cartEntries = await Promise.all(
-            storedCart.map(async item => {
-                try {
-                    const product = await getProduct(item.productId);
+  try {
+    cartEntries = await Promise.all(
+      storedCart.map(async (item) => {
+        try {
+          const product = await getProduct(item.productId);
 
-                    return {
-                        item,
-                        product,
-                        unavailable: false
-                    };
+          return {
+            item,
+            product,
+            unavailable: false,
+          };
+        } catch (error) {
+          console.warn(`Product ${item.productId} unavailable:`, error);
 
-                } catch (error) {
-                    console.warn(
-                        `Product ${item.productId} unavailable:`,
-                        error
-                    );
+          // Keep the saved item visible if its product
+          // was removed or is temporarily unavailable.
+          return {
+            item,
+            product: {
+              _id: item.productId,
+              name: item.name || "Produit indisponible",
+              price: Number(item.price) || 0,
+              image: item.image || "",
+              category: "",
+              stock: 0,
+              isActive: false,
+            },
+            unavailable: true,
+          };
+        }
+      }),
+    );
 
-                    // Keep the saved item visible if its product
-                    // was removed or is temporarily unavailable.
-                    return {
-                        item,
-                        product: {
-                            _id: item.productId,
-                            name: item.name || "Produit indisponible",
-                            price: Number(item.price) || 0,
-                            image: item.image || "",
-                            category: "",
-                            stock: 0,
-                            isActive: false
-                        },
-                        unavailable: true
-                    };
-                }
-            })
-        );
+    renderCart();
+  } catch (error) {
+    console.error("Cart loading error:", error);
 
-        renderCart();
-
-    } catch (error) {
-        console.error("Cart loading error:", error);
-
-        showError(
-            "Impossible de charger votre panier. Veuillez réessayer."
-        );
-    }
+    showError("Impossible de charger votre panier. Veuillez réessayer.");
+  }
 }
-
 
 // ==============================
 // CART STATES
 // ==============================
 
 function showEmptyCart() {
-    loadingElement.hidden = true;
-    cartContent.hidden = true;
-    emptyCart.hidden = false;
+  loadingElement.hidden = true;
+  cartContent.hidden = true;
+  emptyCart.hidden = false;
 }
-
 
 function showError(message) {
-    loadingElement.hidden = true;
-    cartContent.hidden = true;
-    emptyCart.hidden = true;
+  loadingElement.hidden = true;
+  cartContent.hidden = true;
+  emptyCart.hidden = true;
 
-    errorElement.hidden = false;
-    errorElement.textContent = message;
+  errorElement.hidden = false;
+  errorElement.textContent = message;
 }
-
 
 // ==============================
 // RENDER CART
 // ==============================
 
 function renderCart() {
-    loadingElement.hidden = true;
-    errorElement.hidden = true;
+  loadingElement.hidden = true;
+  errorElement.hidden = true;
 
-    if (cartEntries.length === 0) {
-        showEmptyCart();
-        return;
-    }
+  if (cartEntries.length === 0) {
+    showEmptyCart();
+    return;
+  }
 
-    emptyCart.hidden = true;
-    cartContent.hidden = false;
+  emptyCart.hidden = true;
+  cartContent.hidden = false;
 
-    cartItemsContainer.innerHTML = "";
+  cartItemsContainer.innerHTML = "";
 
-    cartEntries.forEach((entry, index) => {
-        const article = createCartItem(entry, index);
+  cartEntries.forEach((entry, index) => {
+    const article = createCartItem(entry, index);
 
-        cartItemsContainer.appendChild(article);
-    });
+    cartItemsContainer.appendChild(article);
+  });
 
-    updateSummary();
+  updateSummary();
 }
-
 
 // ==============================
 // CREATE CART ITEM
 // ==============================
 
 function createCartItem(entry, index) {
-    const { item, product, unavailable } = entry;
+  const { item, product, unavailable } = entry;
 
-    const quantity = Number(item.quantity) || 1;
-    const stock = Number(product.stock) || 0;
-    const price = Number(product.price) || 0;
+  const quantity = Number(item.quantity) || 1;
+  const stock = Number(product.stock) || 0;
+  const price = Number(product.price) || 0;
 
-    const itemTotal = price * quantity;
+  const itemTotal = price * quantity;
 
-    const image =
-        product.images?.find(src =>
-            typeof src === "string" &&
-            src.trim() !== "" &&
-            !src.includes("example.com")
-        ) ||
-        product.image ||
-        item.image ||
-        "";
+  const image =
+    product.images?.find(
+      (src) =>
+        typeof src === "string" &&
+        src.trim() !== "" &&
+        !src.includes("example.com"),
+    ) ||
+    product.image ||
+    item.image ||
+    "";
 
-    const article = document.createElement("article");
-    article.className = "cart-item";
+  const article = document.createElement("article");
+  article.className = "cart-item";
 
-    // IMAGE
-    const imageContainer = document.createElement("div");
-    imageContainer.className = "cart-item-image";
+  // IMAGE
+  const imageContainer = document.createElement("div");
+  imageContainer.className = "cart-item-image";
 
-    if (image) {
-        const img = document.createElement("img");
+  if (image) {
+    const img = document.createElement("img");
 
-        img.src = image;
-        img.alt = product.name || "Produit";
+    img.src = image;
+    img.alt = product.name || "Produit";
 
-        img.onerror = () => {
-            img.style.display = "none";
-        };
+    img.onerror = () => {
+      img.style.display = "none";
+    };
 
-        imageContainer.appendChild(img);
-    }
+    imageContainer.appendChild(img);
+  }
 
-    // INFO
-    const info = document.createElement("div");
-    info.className = "cart-item-info";
+  // INFO
+  const info = document.createElement("div");
+  info.className = "cart-item-info";
 
-    const top = document.createElement("div");
-    top.className = "cart-item-top";
+  const top = document.createElement("div");
+  top.className = "cart-item-top";
 
-    const productInfo = document.createElement("div");
+  const productInfo = document.createElement("div");
 
-    const category = document.createElement("p");
-    category.className = "cart-item-category";
-    category.textContent = product.category || "";
+  const category = document.createElement("p");
+  category.className = "cart-item-category";
+  category.textContent = product.category || "";
 
-    const name = document.createElement("h3");
-    name.className = "cart-item-name";
-    name.textContent = product.name || item.name || "Produit";
+  const name = document.createElement("h3");
+  name.className = "cart-item-name";
+  name.textContent = product.name || item.name || "Produit";
 
-    productInfo.append(category, name);
+  productInfo.append(category, name);
 
-    const priceElement = document.createElement("p");
-    priceElement.className = "cart-item-price";
-    priceElement.textContent = formatPrice(itemTotal);
+  const priceElement = document.createElement("p");
+  priceElement.className = "cart-item-price";
+  priceElement.textContent = formatPrice(itemTotal);
 
-    top.append(productInfo, priceElement);
+  top.append(productInfo, priceElement);
 
-    // OPTIONS
-    const options = document.createElement("div");
-    options.className = "cart-item-options";
+  // OPTIONS
+  const options = document.createElement("div");
+  options.className = "cart-item-options";
 
-    if (item.size) {
-        const size = document.createElement("span");
-        size.textContent = `Taille : ${item.size}`;
-        options.appendChild(size);
-    }
+  if (item.size) {
+    const size = document.createElement("span");
+    size.textContent = `Taille : ${item.size}`;
+    options.appendChild(size);
+  }
 
-    if (item.color) {
-        const color = document.createElement("span");
-        color.textContent = `Couleur : ${item.color}`;
-        options.appendChild(color);
-    }
+  if (item.color) {
+    const color = document.createElement("span");
+    color.textContent = `Couleur : ${item.color}`;
+    options.appendChild(color);
+  }
 
-    if (unavailable || product.isActive === false || stock <= 0) {
-        const status = document.createElement("span");
-        status.textContent = "Produit indisponible";
-        status.style.color = "#A3483D";
-        options.appendChild(status);
-    } else if (quantity > stock) {
-        const status = document.createElement("span");
-        status.textContent = `Stock disponible : ${stock}`;
-        status.style.color = "#A3483D";
-        options.appendChild(status);
-    }
+  if (unavailable || product.isActive === false || stock <= 0) {
+    const status = document.createElement("span");
+    status.textContent = "Produit indisponible";
+    status.style.color = "#A3483D";
+    options.appendChild(status);
+  } else if (quantity > stock) {
+    const status = document.createElement("span");
+    status.textContent = `Stock disponible : ${stock}`;
+    status.style.color = "#A3483D";
+    options.appendChild(status);
+  }
 
-    productInfo.appendChild(options);
+  productInfo.appendChild(options);
 
-    // BOTTOM
-    const bottom = document.createElement("div");
-    bottom.className = "cart-item-bottom";
+  // BOTTOM
+  const bottom = document.createElement("div");
+  bottom.className = "cart-item-bottom";
 
-    // QUANTITY
-    const quantityControl = document.createElement("div");
-    quantityControl.className = "quantity-control";
+  // QUANTITY
+  const quantityControl = document.createElement("div");
+  quantityControl.className = "quantity-control";
 
-    const decreaseButton = document.createElement("button");
-    decreaseButton.type = "button";
-    decreaseButton.textContent = "−";
-    decreaseButton.setAttribute("aria-label", "Diminuer la quantité");
-    decreaseButton.disabled = quantity <= 1;
+  const decreaseButton = document.createElement("button");
+  decreaseButton.type = "button";
+  decreaseButton.textContent = "−";
+  decreaseButton.setAttribute("aria-label", "Diminuer la quantité");
+  decreaseButton.disabled = quantity <= 1;
 
-    decreaseButton.addEventListener("click", () => {
-        changeQuantity(index, -1);
-    });
+  decreaseButton.addEventListener("click", () => {
+    changeQuantity(index, -1);
+  });
 
-    const quantityText = document.createElement("span");
-    quantityText.textContent = quantity;
+  const quantityText = document.createElement("span");
+  quantityText.textContent = quantity;
 
-    const increaseButton = document.createElement("button");
-    increaseButton.type = "button";
-    increaseButton.textContent = "+";
-    increaseButton.setAttribute("aria-label", "Augmenter la quantité");
+  const increaseButton = document.createElement("button");
+  increaseButton.type = "button";
+  increaseButton.textContent = "+";
+  increaseButton.setAttribute("aria-label", "Augmenter la quantité");
 
-    increaseButton.disabled =
-        unavailable ||
-        product.isActive === false ||
-        quantity >= stock;
+  increaseButton.disabled =
+    unavailable || product.isActive === false || quantity >= stock;
 
-    increaseButton.addEventListener("click", () => {
-        changeQuantity(index, 1);
-    });
+  increaseButton.addEventListener("click", () => {
+    changeQuantity(index, 1);
+  });
 
-    quantityControl.append(
-        decreaseButton,
-        quantityText,
-        increaseButton
-    );
+  quantityControl.append(decreaseButton, quantityText, increaseButton);
 
-    // REMOVE
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.className = "remove-item";
-    removeButton.textContent = "Supprimer";
+  // REMOVE
+  const removeButton = document.createElement("button");
+  removeButton.type = "button";
+  removeButton.className = "remove-item";
+  removeButton.textContent = "Supprimer";
 
-    removeButton.addEventListener("click", () => {
-        removeItem(index);
-    });
+  removeButton.addEventListener("click", () => {
+    removeItem(index);
+  });
 
-    bottom.append(quantityControl, removeButton);
+  bottom.append(quantityControl, removeButton);
 
-    info.append(top, bottom);
-    article.append(imageContainer, info);
+  info.append(top, bottom);
+  article.append(imageContainer, info);
 
-    return article;
+  return article;
 }
-
 
 // ==============================
 // UPDATE QUANTITY
 // ==============================
 
 function changeQuantity(index, amount) {
-    const entry = cartEntries[index];
+  const entry = cartEntries[index];
 
-    if (!entry) return;
+  if (!entry) return;
 
-    const currentQuantity = Number(entry.item.quantity) || 1;
-    const stock = Number(entry.product.stock) || 0;
+  const currentQuantity = Number(entry.item.quantity) || 1;
+  const stock = Number(entry.product.stock) || 0;
 
-    const newQuantity = currentQuantity + amount;
+  const newQuantity = currentQuantity + amount;
 
-    if (newQuantity < 1) return;
+  if (newQuantity < 1) return;
 
-    if (
-        amount > 0 &&
-        (
-            entry.unavailable ||
-            entry.product.isActive === false ||
-            newQuantity > stock
-        )
-    ) {
-        showMessage("Quantité indisponible en stock.");
-        return;
-    }
+  if (
+    amount > 0 &&
+    (entry.unavailable ||
+      entry.product.isActive === false ||
+      newQuantity > stock)
+  ) {
+    showMessage("Quantité indisponible en stock.");
+    return;
+  }
 
-    entry.item.quantity = newQuantity;
+  entry.item.quantity = newQuantity;
 
-    saveCart();
-    renderCart();
+  saveCart();
+  renderCart();
 }
-
 
 // ==============================
 // REMOVE ITEM
 // ==============================
 
 function removeItem(index) {
-    if (!cartEntries[index]) return;
+  if (!cartEntries[index]) return;
 
-    cartEntries.splice(index, 1);
+  cartEntries.splice(index, 1);
 
-    saveCart();
-    renderCart();
+  saveCart();
+  renderCart();
 
-    showMessage("Produit supprimé du panier.");
+  showMessage("Produit supprimé du panier.");
 }
-
 
 // ==============================
 // CLEAR CART
 // ==============================
 
 if (clearCartButton) {
-    clearCartButton.addEventListener("click", () => {
-        if (cartEntries.length === 0) return;
+  clearCartButton.addEventListener("click", () => {
+    if (cartEntries.length === 0) return;
 
-        const confirmed = confirm(
-            "Voulez-vous vraiment vider votre panier ?"
-        );
+    const confirmed = confirm("Voulez-vous vraiment vider votre panier ?");
 
-        if (!confirmed) return;
+    if (!confirmed) return;
 
-        cartEntries = [];
+    cartEntries = [];
 
-        localStorage.removeItem("cartItems");
+    localStorage.removeItem("cartItems");
 
-        saveCart();
-        renderCart();
+    saveCart();
+    renderCart();
 
-        showMessage("Votre panier a été vidé.");
-    });
+    showMessage("Votre panier a été vidé.");
+  });
 }
-
 
 // ==============================
 // ORDER SUMMARY
 // ==============================
 
 function updateSummary() {
-    const totalItems = cartEntries.reduce((sum, entry) => {
-        return sum + (Number(entry.item.quantity) || 0);
-    }, 0);
+  const totalItems = cartEntries.reduce((sum, entry) => {
+    return sum + (Number(entry.item.quantity) || 0);
+  }, 0);
 
-    const totalPrice = cartEntries.reduce((sum, entry) => {
-        const price = Number(entry.product.price) || 0;
-        const quantity = Number(entry.item.quantity) || 0;
+  const totalPrice = cartEntries.reduce((sum, entry) => {
+    const price = Number(entry.product.price) || 0;
+    const quantity = Number(entry.item.quantity) || 0;
 
-        return sum + price * quantity;
-    }, 0);
+    return sum + price * quantity;
+  }, 0);
 
-    const hasUnavailableItems = cartEntries.some(entry => {
-        const stock = Number(entry.product.stock) || 0;
-        const quantity = Number(entry.item.quantity) || 0;
+  const hasUnavailableItems = cartEntries.some((entry) => {
+    const stock = Number(entry.product.stock) || 0;
+    const quantity = Number(entry.item.quantity) || 0;
 
-        return (
-            entry.unavailable ||
-            entry.product.isActive === false ||
-            stock <= 0 ||
-            quantity > stock
-        );
-    });
+    return (
+      entry.unavailable ||
+      entry.product.isActive === false ||
+      stock <= 0 ||
+      quantity > stock
+    );
+  });
 
-    summaryCount.textContent = totalItems;
-    subtotalElement.textContent = formatPrice(totalPrice);
-    totalPriceElement.textContent = formatPrice(totalPrice);
+  summaryCount.textContent = totalItems;
+  subtotalElement.textContent = formatPrice(totalPrice);
+  totalPriceElement.textContent = formatPrice(totalPrice);
 
-    checkoutButton.disabled = hasUnavailableItems;
-    checkoutButton.title = hasUnavailableItems
-        ? "Vérifiez les produits et les quantités indisponibles."
-        : "";
+  checkoutButton.disabled = hasUnavailableItems;
+  checkoutButton.title = hasUnavailableItems
+    ? "Vérifiez les produits et les quantités indisponibles."
+    : "";
 }
-
 
 // ==============================
 // CHECKOUT
 // ==============================
 
 if (checkoutButton) {
-    checkoutButton.addEventListener("click", () => {
-        showMessage(
-            "La commande en ligne sera bientôt disponible."
-        );
-    });
+  checkoutButton.addEventListener("click", () => {
+    showMessage("La commande en ligne sera bientôt disponible.");
+  });
 }
-
 
 // ==============================
 // HEADER NAVIGATION
 // ==============================
 
 if (menuButton && navigation) {
-    menuButton.addEventListener("click", () => {
-        const isOpen = navigation.classList.toggle("open");
+  menuButton.addEventListener("click", () => {
+    const isOpen = navigation.classList.toggle("open");
 
-        menuButton.setAttribute("aria-expanded", isOpen);
+    menuButton.setAttribute("aria-expanded", isOpen);
 
-        menuButton.setAttribute(
-            "aria-label",
-            isOpen ? "Fermer le menu" : "Ouvrir le menu"
-        );
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? "Fermer le menu" : "Ouvrir le menu",
+    );
+  });
+
+  navigation.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navigation.classList.remove("open");
+
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Ouvrir le menu");
     });
-
-    navigation.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", () => {
-            navigation.classList.remove("open");
-
-            menuButton.setAttribute("aria-expanded", "false");
-            menuButton.setAttribute("aria-label", "Ouvrir le menu");
-        });
-    });
+  });
 }
-
 
 // ==============================
 // HEADER CART BUTTON
 // ==============================
 
 if (cartButton) {
-    cartButton.addEventListener("click", () => {
-        window.location.href = "cart.html";
-    });
+  cartButton.addEventListener("click", () => {
+    window.location.href = "cart.html";
+  });
 }
-
 
 // ==============================
 // ESCAPE KEY
 // ==============================
 
-document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && navigation && menuButton) {
-        navigation.classList.remove("open");
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navigation && menuButton) {
+    navigation.classList.remove("open");
 
-        menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", "Ouvrir le menu");
-    }
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Ouvrir le menu");
+  }
 });
-
 
 // ==============================
 // START
