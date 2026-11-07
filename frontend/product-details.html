@@ -1,234 +1,214 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Détails du produit | Signature d'Algérie</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="dz.css">
-<link rel="stylesheet" href="product-details.css">
+    <link rel="stylesheet" href="dz.css" />
+    <link rel="stylesheet" href="product-details.css" />
     <script src="product-details.js" defer></script>
-</head>
+  </head>
 
-<body>
-
-<!-- Header -->
-<header class="site-header">
-
-    <div class="head">
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="head">
         <!-- Logo -->
-        <a class="logo" href="dz.html" aria-label="Signature d’Algérie - Accueil">
-            <span class="logo-symbol">✿</span>
-            <strong>Signature d’Algérie</strong>
-            <small>L’ÉLÉGANCE DU PATRIMOINE ALGÉRIEN</small>
+        <a
+          class="logo"
+          href="index.html"
+          aria-label="Signature d’Algérie - Accueil"
+        >
+          <span class="logo-symbol">✿</span>
+          <strong>Signature d’Algérie</strong>
+          <small>L’ÉLÉGANCE DU PATRIMOINE ALGÉRIEN</small>
         </a>
 
         <!-- Header Actions -->
         <div class="icons">
-
-            <!-- Cart -->
-            <button
-                id="cart"
-                type="button"
-                aria-label="Panier"
-                class="cart-button"
+          <!-- Cart -->
+          <button
+            id="cart"
+            type="button"
+            aria-label="Panier"
+            class="cart-button"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
             >
-                <svg
-                    viewBox="0 0 24 24"
-                    width="22"
-                    height="22"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-                    <path d="M3 3h2l2.4 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"/>
-                    <circle cx="10" cy="20" r="1"/>
-                    <circle cx="18" cy="20" r="1"/>
-                </svg>
+              <path
+                d="M3 3h2l2.4 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 7H6"
+              />
+              <circle cx="10" cy="20" r="1" />
+              <circle cx="18" cy="20" r="1" />
+            </svg>
 
-                <sup id="count">0</sup>
-            </button>
+            <sup id="count">0</sup>
+          </button>
 
-            <!-- Mobile Menu -->
-            <button
-                id="menu"
-                class="menu-button"
-                type="button"
-                aria-label="Ouvrir le menu"
-                aria-expanded="false"
-                aria-controls="nav"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
+          <!-- Mobile Menu -->
+          <button
+            id="menu"
+            class="menu-button"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+            aria-controls="nav"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
-    </div>
+      </div>
 
-    <!-- Navigation -->
-    <nav id="nav" class="main-nav">
-        <a href="dz.html#home">Accueil</a>
-        <a href="dz.html#collections">Collections</a>
-        <a href="dz.html#about">À propos</a>
-        <a href="dz.html#designers">Designers</a>
-        <a href="dz.html#reviews">Avis clients</a>
-        <a href="dz.html#contact">Contact</a>
-    </nav>
-
-</header>
-
+      <!-- Navigation -->
+      <nav id="nav" class="main-nav">
+        <a href="index.html#home">Accueil</a>
+        <a href="index.html#collections">Collections</a>
+        <a href="index.html#about">À propos</a>
+        <a href="index.html#designers">Designers</a>
+        <a href="index.html#reviews">Avis clients</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
 
     <main class="details-container">
+      <div id="loading" class="loading">Chargement du produit...</div>
 
-        <div id="loading" class="loading">
-            Chargement du produit...
+      <div id="error" class="error" hidden>
+        Impossible de trouver ce produit.
+        <a href="index.html">Retour à la collection</a>
+      </div>
+
+      <section id="product-details" class="product-details" hidden>
+        <div class="gallery">
+          <div id="thumbnails" class="thumbnails"></div>
+
+          <div class="main-image-container">
+            <img id="main-image" src="" alt="" />
+            <span id="image-category" class="image-category"></span>
+          </div>
         </div>
 
-        <div id="error" class="error" hidden>
-            Impossible de trouver ce produit.
-            <a href="dz.html">Retour à la collection</a>
-        </div>
+        <div class="product-info">
+          <p id="product-category" class="category"></p>
 
-        <section id="product-details" class="product-details" hidden>
+          <h1 id="product-name"></h1>
 
-            <div class="gallery">
+          <p id="product-price" class="price"></p>
 
-                <div id="thumbnails" class="thumbnails"></div>
+          <div class="divider"></div>
 
-                <div class="main-image-container">
-                    <img id="main-image" src="" alt="">
-                    <span id="image-category" class="image-category"></span>
-                </div>
-
+          <div class="description">
+            <span class="label">DESCRIPTION</span>
+            <p id="product-description"></p>
+          </div>
+          <div class="product-options">
+            <div class="option-group">
+              <span class="label">TAILLES DISPONIBLES</span>
+              <div id="product-sizes" class="option-values">
+                <!-- Rempli par JavaScript -->
+              </div>
             </div>
 
-            <div class="product-info">
+            <div class="option-group">
+              <span class="label">COULEURS DISPONIBLES</span>
+              <div id="product-colors" class="option-values">
+                <!-- Rempli par JavaScript -->
+              </div>
+            </div>
+          </div>
 
-                <p id="product-category" class="category"></p>
+          <div class="availability">
+            <span class="label">DISPONIBILITÉ</span>
+            <p id="product-status"></p>
+          </div>
+          <div class="stock">
+            <span id="stock-dot"></span>
+            <p id="product-stock"></p>
+          </div>
 
-                <h1 id="product-name"></h1>
+          <div id="quantity-section" class="quantity-section">
+            <label>QUANTITÉ</label>
 
-                <p id="product-price" class="price"></p>
+            <div class="quantity-control">
+              <button id="decrease" type="button">−</button>
+              <span id="quantity">1</span>
+              <button id="increase" type="button">+</button>
+            </div>
+          </div>
 
-                <div class="divider"></div>
+          <div class="actions">
+            <button id="add-to-cart" class="add-to-cart">
+              Ajouter au panier
+            </button>
+          </div>
 
-                <div class="description">
-                    <span class="label">DESCRIPTION</span>
-                    <p id="product-description"></p>
-                </div>
-                <div class="product-options">
+          <p id="cart-message" class="cart-message" aria-live="polite"></p>
 
-    <div class="option-group">
-        <span class="label">TAILLES DISPONIBLES</span>
-        <div id="product-sizes" class="option-values">
-            <!-- Rempli par JavaScript -->
-        </div>
-    </div>
-
-    <div class="option-group">
-        <span class="label">COULEURS DISPONIBLES</span>
-        <div id="product-colors" class="option-values">
-            <!-- Rempli par JavaScript -->
-        </div>
-    </div>
-
-</div>
-
-<div class="availability">
-    <span class="label">DISPONIBILITÉ</span>
-    <p id="product-status"></p>
-</div>
-                <div class="stock">
-                    <span id="stock-dot"></span>
-                    <p id="product-stock"></p>
-                </div>
-
-                <div id="quantity-section" class="quantity-section">
-                    <label>QUANTITÉ</label>
-
-                    <div class="quantity-control">
-                        <button id="decrease" type="button">−</button>
-                        <span id="quantity">1</span>
-                        <button id="increase" type="button">+</button>
-                    </div>
-                </div>
-
-                <div class="actions">
-                    <button id="add-to-cart" class="add-to-cart">
-                        Ajouter au panier
-                    </button>
-
-                    
-                </div>
-
-                <p id="cart-message" class="cart-message" aria-live="polite"></p>
-
-                <div class="additional-info">
-
-                    <div>
-                        <span>Livraison</span>
-                        <span>Livraison disponible</span>
-                    </div>
-
-                    <div>
-                        <span>Retours</span>
-                        <a href="dz.html#contact">En savoir plus ↗</a>
-                    </div>
-
-                    <div>
-                        <span>Catégorie</span>
-                        <span id="info-category"></span>
-                    </div>
-
-                </div>
-
+          <div class="additional-info">
+            <div>
+              <span>Livraison</span>
+              <span>Livraison disponible</span>
             </div>
 
-        </section>
+            <div>
+              <span>Retours</span>
+              <a href="index.html#contact">En savoir plus ↗</a>
+            </div>
 
+            <div>
+              <span>Catégorie</span>
+              <span id="info-category"></span>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
-<!-- Footer -->
-<footer class="site-footer">
-
-    <div class="footer-content">
-
-        <a href="dz.html#home" class="footer-logo">
-            <span class="footer-symbol">✿</span>
-            <strong>Signature d’Algérie</strong>
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <a href="index.html#home" class="footer-logo">
+          <span class="footer-symbol">✿</span>
+          <strong>Signature d’Algérie</strong>
         </a>
 
         <p class="footer-description">
-            L’élégance de notre patrimoine, 
-            la beauté de nos traditions.
+          L’élégance de notre patrimoine, la beauté de nos traditions.
         </p>
 
         <nav class="footer-links">
-            <a href="dz.html#home">Accueil</a>
-            <a href="dz.html#collections">Collections</a>
-            <a href="dz.html#about">Notre histoire</a>
-            <a href="dz.html#contact">Contact</a>
+          <a href="index.html#home">Accueil</a>
+          <a href="index.html#collections">Collections</a>
+          <a href="index.html#about">Notre histoire</a>
+          <a href="index.html#contact">Contact</a>
         </nav>
+      </div>
 
-    </div>
-
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <span>© 2026 Signature d’Algérie</span>
         <span>Le patrimoine algérien, notre signature.</span>
-    </div>
-
-</footer>
-
-</body>
+      </div>
+    </footer>
+  </body>
 </html>
