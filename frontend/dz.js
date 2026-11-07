@@ -147,7 +147,6 @@ function displayProducts(products) {
       : "Aucun produit disponible pour le moment.";
 
     productsList.appendChild(emptyMessage);
-
     return;
   }
 
@@ -159,10 +158,12 @@ function displayProducts(products) {
     card.dataset.productId = product._id;
     card.style.cursor = "pointer";
     card.tabIndex = 0;
-
     card.setAttribute("role", "link");
-
     card.setAttribute("aria-label", `Voir les détails de ${product.name}`);
+
+    // Image Container
+    const imageContainer = document.createElement("div");
+    imageContainer.className = "product-image-container";
 
     // Product Image
     const image = document.createElement("img");
@@ -178,53 +179,84 @@ function displayProducts(products) {
 
     image.alt = product.name;
 
+    image.loading = "lazy";
+
     image.onerror = () => {
       image.onerror = null;
-
       image.src = localImages[product.category] || "";
     };
 
-    // Product Info
-    const info = document.createElement("div");
-
-    info.className = "product-info";
-
-    // Category
-    const category = document.createElement("p");
+    // Category Badge
+    const category = document.createElement("span");
 
     category.className = "product-category";
-    category.textContent = product.category;
+    category.textContent = product.category || "Collection";
 
-    // Name
+    // Product Info
+    const info = document.createElement("div");
+    info.className = "product-info";
+
+    // Product Name
     const title = document.createElement("h3");
 
     title.className = "product-title";
     title.textContent = product.name;
 
+    // Product Description
+    const description = document.createElement("p");
+
+    description.className = "product-description";
+    description.textContent =
+      product.description || "Une création élégante de notre collection.";
+
     // Price
     const price = document.createElement("p");
 
     price.className = "product-price";
-
     price.textContent = `${Number(product.price).toLocaleString("fr-FR")} DA`;
+
+    // Availability
+    const availability = document.createElement("span");
+
+    availability.className = "product-availability";
+
+    const isAvailable = product.isActive && Number(product.stock) > 0;
+
+    availability.textContent = isAvailable ? "Disponible" : "Indisponible";
+
+    availability.classList.add(isAvailable ? "available" : "unavailable");
 
     // Add To Cart Button
     const button = document.createElement("button");
 
-    button.textContent = "Ajouter au panier";
+    button.textContent = isAvailable ? "Ajouter au panier" : "Indisponible";
+
     button.className = "add";
     button.type = "button";
     button.dataset.productId = product._id;
-
-    if (!product.isActive || Number(product.stock) <= 0) {
-      button.disabled = true;
-      button.textContent = "Indisponible";
-    }
+    button.disabled = !isAvailable;
 
     // Build Card
-    info.append(category, title, price, button);
+    imageContainer.append(image, category);
 
-    card.append(image, info);
+    const productDetails = document.createElement("div");
+    productDetails.className = "product-details";
+
+    productDetails.append(title, description);
+
+    const bottom = document.createElement("div");
+    bottom.className = "product-bottom";
+
+    const priceInfo = document.createElement("div");
+    priceInfo.className = "product-price-info";
+
+    priceInfo.append(price, availability);
+
+    bottom.append(priceInfo, button);
+
+    info.append(productDetails, bottom);
+
+    card.append(imageContainer, info);
 
     productsList.appendChild(card);
   });
