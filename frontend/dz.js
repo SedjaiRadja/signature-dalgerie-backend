@@ -107,7 +107,7 @@ const localImages = {
 
 async function loadProducts() {
   try {
-    const response = await fetch(`${API_URL}/products`);
+    const response = await fetch(`${API_URL}/products?limit=100`);
 
     if (!response.ok) {
       throw new Error("Impossible de récupérer les produits");
@@ -220,7 +220,7 @@ function displayProducts(products) {
 
     availability.className = "product-availability";
 
-    const isAvailable = product.isActive && Number(product.stock) > 0;
+    const isAvailable = product.isActive !== false && Number(product.stock) > 0;
 
     availability.textContent = isAvailable ? "Disponible" : "Indisponible";
 
